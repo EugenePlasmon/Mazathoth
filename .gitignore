@@ -15,9 +15,11 @@ DerivedData/
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
+xcshareddata/
 xcuserdata/
 
 ## Other
+.DS_Store
 *.moved-aside
 *.xccheckout
 *.xcscmblueprint
@@ -37,7 +39,6 @@ playground.xcworkspace
 # Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
 # Packages/
 # Package.pins
-# Package.resolved
 .build/
 
 # CocoaPods
@@ -64,5 +65,5 @@ Carthage/Build
 
 fastlane/report.xml
 fastlane/Preview.html
-fastlane/screenshots/**/*.png
+fastlane/screenshots
 fastlane/test_output
