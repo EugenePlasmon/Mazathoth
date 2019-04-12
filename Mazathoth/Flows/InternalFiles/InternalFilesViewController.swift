@@ -12,7 +12,20 @@ final class InternalFilesViewController: UIViewController {
     
     private var internalFiles: [InternalFile] = []
     private let internalFilesView = InternalFilesView()
-
+    
+    private let fetcher: InternalFilesFetcherInterface
+    
+    // MARK: - Init
+    
+    init(fetcher: InternalFilesFetcherInterface) {
+        self.fetcher = fetcher
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -24,9 +37,8 @@ final class InternalFilesViewController: UIViewController {
     // MARK: - Fetch InternalFiles from Document directory
     
     private func loadDataFromDocumentDirectory() {
-        let internalFilesFetcher = InternalFilesFetcher()
-        self.internalFiles = internalFilesFetcher.filesFromDocumentsFolder()
-        internalFilesView.tableView.reloadData()
+        self.internalFiles = (try? self.fetcher.filesFromDocumentsFolder()) ?? []
+        self.internalFilesView.tableView.reloadData()
     }
     
     // MARK: - Subview
@@ -42,7 +54,16 @@ final class InternalFilesViewController: UIViewController {
 // MARK: - Delegate
 
 extension InternalFilesViewController: UITableViewDelegate {
-
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        guard let selectedFile = self.internalFiles[safe: indexPath.row] else {
+            return
+        }
+        // TODO: - нормальный роутинг
+        let audioPlayerVC = AudioPlayerViewController(file: selectedFile)
+        self.navigationController?.pushViewController(audioPlayerVC, animated: true)
+    }
 }
 
 // MARK: - DataSource

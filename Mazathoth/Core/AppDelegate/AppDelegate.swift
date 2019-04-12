@@ -13,7 +13,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     
+    private var appLauncher: AppLauncher?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        self.appLauncher = AppLauncher(window: self.window)
+        self.appLauncher?.start()
         return true
     }
 }
