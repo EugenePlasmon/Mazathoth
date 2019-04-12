@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F82844832260F9030089EEBD /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82844822260F9030089EEBD /* Array+Extensions.swift */; };
+		F82844852260F9180089EEBD /* Monads.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82844842260F9180089EEBD /* Monads.swift */; };
+		F82844882260F9C70089EEBD /* CGColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82844872260F9C70089EEBD /* CGColor+Extensions.swift */; };
+		F828448A2260FAE20089EEBD /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82844892260FAE20089EEBD /* UIColor+Extensions.swift */; };
 		F82D8058225D11F0006DDAB3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D8057225D11F0006DDAB3 /* AppDelegate.swift */; };
 		F82D805A225D11F0006DDAB3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D8059225D11F0006DDAB3 /* ViewController.swift */; };
 		F82D805D225D11F0006DDAB3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F82D805B225D11F0006DDAB3 /* Main.storyboard */; };
@@ -15,6 +19,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F82844822260F9030089EEBD /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
+		F82844842260F9180089EEBD /* Monads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monads.swift; sourceTree = "<group>"; };
+		F82844872260F9C70089EEBD /* CGColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGColor+Extensions.swift"; sourceTree = "<group>"; };
+		F82844892260FAE20089EEBD /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		F82D8054225D11F0006DDAB3 /* Mazathoth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mazathoth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F82D8057225D11F0006DDAB3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F82D8059225D11F0006DDAB3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -35,6 +43,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F82844812260F8E90089EEBD /* Fundamental */ = {
+			isa = PBXGroup;
+			children = (
+				F82844862260F9960089EEBD /* Extensions */,
+				F82844842260F9180089EEBD /* Monads.swift */,
+			);
+			path = Fundamental;
+			sourceTree = "<group>";
+		};
+		F82844862260F9960089EEBD /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F82844822260F9030089EEBD /* Array+Extensions.swift */,
+				F82844872260F9C70089EEBD /* CGColor+Extensions.swift */,
+				F82844892260FAE20089EEBD /* UIColor+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		F82D804B225D11F0006DDAB3 = {
 			isa = PBXGroup;
 			children = (
@@ -54,6 +81,7 @@
 		F82D8056225D11F0006DDAB3 /* Mazathoth */ = {
 			isa = PBXGroup;
 			children = (
+				F82844812260F8E90089EEBD /* Fundamental */,
 				F82D8057225D11F0006DDAB3 /* AppDelegate.swift */,
 				F82D8059225D11F0006DDAB3 /* ViewController.swift */,
 				F82D805B225D11F0006DDAB3 /* Main.storyboard */,
@@ -136,6 +164,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				F82D805A225D11F0006DDAB3 /* ViewController.swift in Sources */,
+				F828448A2260FAE20089EEBD /* UIColor+Extensions.swift in Sources */,
+				F82844852260F9180089EEBD /* Monads.swift in Sources */,
+				F82844832260F9030089EEBD /* Array+Extensions.swift in Sources */,
+				F82844882260F9C70089EEBD /* CGColor+Extensions.swift in Sources */,
 				F82D8058225D11F0006DDAB3 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
