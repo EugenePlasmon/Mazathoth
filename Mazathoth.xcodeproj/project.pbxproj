@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		94DBEE48226106F50084CDC6 /* InternalFilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DBEE47226106F50084CDC6 /* InternalFilesViewController.swift */; };
+		94DBEE4B22610CF30084CDC6 /* InternalFilesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DBEE4A22610CF30084CDC6 /* InternalFilesView.swift */; };
+		94DBEE4F22610DEA0084CDC6 /* InternalFileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DBEE4D22610DEA0084CDC6 /* InternalFileTableViewCell.swift */; };
+		94DBEE5022610DEA0084CDC6 /* InternalFileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94DBEE4E22610DEA0084CDC6 /* InternalFileTableViewCell.xib */; };
+		94DBEE5322610F050084CDC6 /* InternalFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DBEE5222610F050084CDC6 /* InternalFile.swift */; };
+		94DBEE572263B6A70084CDC6 /* InternalFilesFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DBEE562263B6A70084CDC6 /* InternalFilesFetcher.swift */; };
 		F82844832260F9030089EEBD /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82844822260F9030089EEBD /* Array+Extensions.swift */; };
 		F82844852260F9180089EEBD /* Monads.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82844842260F9180089EEBD /* Monads.swift */; };
 		F82844882260F9C70089EEBD /* CGColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82844872260F9C70089EEBD /* CGColor+Extensions.swift */; };
@@ -19,6 +25,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		94DBEE47226106F50084CDC6 /* InternalFilesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalFilesViewController.swift; sourceTree = "<group>"; };
+		94DBEE4A22610CF30084CDC6 /* InternalFilesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalFilesView.swift; sourceTree = "<group>"; };
+		94DBEE4D22610DEA0084CDC6 /* InternalFileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalFileTableViewCell.swift; sourceTree = "<group>"; };
+		94DBEE4E22610DEA0084CDC6 /* InternalFileTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InternalFileTableViewCell.xib; sourceTree = "<group>"; };
+		94DBEE5222610F050084CDC6 /* InternalFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalFile.swift; sourceTree = "<group>"; };
+		94DBEE562263B6A70084CDC6 /* InternalFilesFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalFilesFetcher.swift; sourceTree = "<group>"; };
 		F82844822260F9030089EEBD /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		F82844842260F9180089EEBD /* Monads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monads.swift; sourceTree = "<group>"; };
 		F82844872260F9C70089EEBD /* CGColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGColor+Extensions.swift"; sourceTree = "<group>"; };
@@ -43,6 +55,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		94DBEE46226104A00084CDC6 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				94DBEE47226106F50084CDC6 /* InternalFilesViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		94DBEE4922610C830084CDC6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				94DBEE4A22610CF30084CDC6 /* InternalFilesView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		94DBEE4C22610DCC0084CDC6 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				94DBEE4D22610DEA0084CDC6 /* InternalFileTableViewCell.swift */,
+				94DBEE4E22610DEA0084CDC6 /* InternalFileTableViewCell.xib */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		94DBEE5122610E690084CDC6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				94DBEE5222610F050084CDC6 /* InternalFile.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		F82844812260F8E90089EEBD /* Fundamental */ = {
 			isa = PBXGroup;
 			children = (
@@ -81,10 +126,15 @@
 		F82D8056225D11F0006DDAB3 /* Mazathoth */ = {
 			isa = PBXGroup;
 			children = (
-				F82844812260F8E90089EEBD /* Fundamental */,
 				F82D8057225D11F0006DDAB3 /* AppDelegate.swift */,
-				F82D8059225D11F0006DDAB3 /* ViewController.swift */,
 				F82D805B225D11F0006DDAB3 /* Main.storyboard */,
+				94DBEE562263B6A70084CDC6 /* InternalFilesFetcher.swift */,
+				F82844812260F8E90089EEBD /* Fundamental */,
+				94DBEE5122610E690084CDC6 /* Model */,
+				94DBEE4922610C830084CDC6 /* View */,
+				94DBEE46226104A00084CDC6 /* ViewController */,
+				94DBEE4C22610DCC0084CDC6 /* Cell */,
+				F82D8059225D11F0006DDAB3 /* ViewController.swift */,
 				F82D805E225D11F2006DDAB3 /* Assets.xcassets */,
 				F82D8060225D11F2006DDAB3 /* LaunchScreen.storyboard */,
 				F82D8063225D11F2006DDAB3 /* Info.plist */,
@@ -151,6 +201,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F82D8062225D11F2006DDAB3 /* LaunchScreen.storyboard in Resources */,
+				94DBEE5022610DEA0084CDC6 /* InternalFileTableViewCell.xib in Resources */,
 				F82D805F225D11F2006DDAB3 /* Assets.xcassets in Resources */,
 				F82D805D225D11F0006DDAB3 /* Main.storyboard in Resources */,
 			);
@@ -163,11 +214,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94DBEE5322610F050084CDC6 /* InternalFile.swift in Sources */,
+				94DBEE4B22610CF30084CDC6 /* InternalFilesView.swift in Sources */,
 				F82D805A225D11F0006DDAB3 /* ViewController.swift in Sources */,
+				94DBEE4F22610DEA0084CDC6 /* InternalFileTableViewCell.swift in Sources */,
+				94DBEE48226106F50084CDC6 /* InternalFilesViewController.swift in Sources */,
 				F828448A2260FAE20089EEBD /* UIColor+Extensions.swift in Sources */,
 				F82844852260F9180089EEBD /* Monads.swift in Sources */,
 				F82844832260F9030089EEBD /* Array+Extensions.swift in Sources */,
 				F82844882260F9C70089EEBD /* CGColor+Extensions.swift in Sources */,
+				94DBEE572263B6A70084CDC6 /* InternalFilesFetcher.swift in Sources */,
 				F82D8058225D11F0006DDAB3 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -315,6 +371,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XF789GF2K7;
 				INFOPLIST_FILE = Mazathoth/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -332,6 +389,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XF789GF2K7;
 				INFOPLIST_FILE = Mazathoth/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
