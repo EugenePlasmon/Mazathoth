@@ -7,18 +7,21 @@
 //
 
 import UIKit
-import AVFoundation
+import MediaPlayer
 
 public final class AudioPlayerViewController: UIViewController {
     
     private let file: InternalFile
     
-    // TODO: для плеера будет отдельный класс
-    private var player: AVAudioPlayer?
+    // TODO: зависимость от синглтона вынести в assembly модуля
+    private let player: AudioPlayerInterface = AudioPlayer.shared
     private var timer: Timer?
     
     private let playPauseButton = PlayPauseButton()
-    private let slider = UISlider()
+    private let timeSlider = UISlider()
+    private let volumeSlider = MPVolumeView()
+    
+    private var shouldPositionTimeSlider = true
     
     // MARK: - Init
     
@@ -41,13 +44,19 @@ public final class AudioPlayerViewController: UIViewController {
         self.addTouchHandlers()
     }
     
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.player.stop()
+    }
+    
     // MARK: - UI
     
     private func configureUI() {
         self.view.backgroundColor = .white
         self.navigationItem.title = self.file.name
         self.addPlayPauseButton()
-        self.addSlider()
+        self.addTimeSlider()
+        self.addVolumeSlider()
     }
     
     private func addPlayPauseButton() {
@@ -61,35 +70,47 @@ public final class AudioPlayerViewController: UIViewController {
             ])
     }
     
-    private func addSlider() {
-        self.view.addSubview(self.slider)
-        self.slider.translatesAutoresizingMaskIntoConstraints = false
+    private func addTimeSlider() {
+        self.view.addSubview(self.timeSlider)
+        self.timeSlider.translatesAutoresizingMaskIntoConstraints = false
+        self.timeSlider.tintColor = .gray
         NSLayoutConstraint.activate([
-            self.slider.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 32.0),
-            self.slider.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -32.0),
-            self.slider.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -60.0)
+            self.timeSlider.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 32.0),
+            self.timeSlider.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -32.0),
+            self.timeSlider.topAnchor.constraint(equalTo: self.playPauseButton.bottomAnchor, constant: 40.0)
+            ])
+    }
+    
+    private func addVolumeSlider() {
+        self.view.addSubview(self.volumeSlider)
+        self.volumeSlider.translatesAutoresizingMaskIntoConstraints = false
+        self.volumeSlider.showsRouteButton = false
+        self.volumeSlider.tintColor = .lightGray
+        NSLayoutConstraint.activate([
+            self.volumeSlider.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 32.0),
+            self.volumeSlider.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -32.0),
+            self.volumeSlider.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -60.0),
+            self.volumeSlider.heightAnchor.constraint(equalToConstant: 40.0)
             ])
     }
     
     // MARK: - Private
     
     private func configurePlayer() {
-        guard let data = FileManager.default.contents(atPath: self.file.absolutePath) else {
-            // TODO: показать ошибку
-            return
-        }
         do {
-            let player = try AVAudioPlayer(data: data)
-            self.player = player
+            try self.player.open(.contentsOfPath(self.file.absolutePath))
         } catch {
-            // TODO: показать ошибку
+            // TODO: Обработка ошибки открытия плеера
+            print("Audio player cannot be open")
         }
     }
     
     private func startTimer() {
         self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
-            guard let self = self, let player = self.player else { return }
-            self.slider.value = Float(player.currentTime / player.duration)
+            guard let self = self, self.shouldPositionTimeSlider else {
+                return
+            }
+            self.timeSlider.value = Float(self.player.currentRelativeTime)
         }
     }
     
@@ -101,19 +122,23 @@ public final class AudioPlayerViewController: UIViewController {
             switch self.playPauseButton.kind {
             case .pause:
                 self.playPauseButton.kind = .play
-                self.player?.pause()
+                self.player.pause()
             case .play:
                 self.playPauseButton.kind = .pause
-                self.player?.play()
+                self.player.play()
             }
         }
-        self.slider.addTarget(self, action: #selector(self.sliderValueChanged), for: .valueChanged)
+        self.timeSlider.addTarget(self, action: #selector(self.handleTouchDownSlider), for: .touchDown)
+        self.timeSlider.addTarget(self, action: #selector(self.handleTouchUpSlider), for: .touchUpInside)
+        self.timeSlider.addTarget(self, action: #selector(self.handleTouchUpSlider), for: .touchUpOutside)
     }
     
-    @objc private func sliderValueChanged() {
-        guard let player = self.player else { return }
-        let value = self.slider.value
-        let duration = player.duration
-        player.currentTime = duration * TimeInterval(value)
+    @objc private func handleTouchUpSlider() {
+        self.player.currentRelativeTime = Double(self.timeSlider.value)
+        self.shouldPositionTimeSlider = true
+    }
+    
+    @objc private func handleTouchDownSlider() {
+        self.shouldPositionTimeSlider = false
     }
 }
