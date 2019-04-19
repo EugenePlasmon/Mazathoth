@@ -10,15 +10,16 @@ import UIKit
 
 final class InternalFilesViewController: UIViewController {
     
-    private var internalFiles: [InternalFile] = []
+    private var internalFiles: [FileSystemEntity] = []
     private let internalFilesView = InternalFilesView()
+    private var createFolderDialog: CreateFolderDialog?
     
-    private let fetcher: InternalFilesFetcherInterface
+    private let internalFilesManager: InternalFilesManagerInterface
     
     // MARK: - Init
     
-    init(fetcher: InternalFilesFetcherInterface) {
-        self.fetcher = fetcher
+    init(internalFilesManager: InternalFilesManagerInterface) {
+        self.internalFilesManager = internalFilesManager
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -31,13 +32,14 @@ final class InternalFilesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addSubviews()
+        self.addNavigationItem()
         self.loadDataFromDocumentDirectory()
     }
     
     // MARK: - Fetch InternalFiles from Document directory
     
     private func loadDataFromDocumentDirectory() {
-        self.internalFiles = (try? self.fetcher.filesFromDocumentsFolder()) ?? []
+        self.internalFiles = (try? self.internalFilesManager.fetchFiles()) ?? []
         self.internalFilesView.tableView.reloadData()
     }
     
@@ -48,6 +50,34 @@ final class InternalFilesViewController: UIViewController {
         self.internalFilesView.frame = view.bounds
         self.internalFilesView.tableView.delegate = self
         self.internalFilesView.tableView.dataSource = self
+    }
+    
+    // MARK: - Navigation bar
+    
+    private func addNavigationItem() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.createFolder))
+    }
+    
+    // MARK: - Alert
+    
+    @objc private func createFolder() {
+        self.createFolderDialog = CreateFolderDialog { [weak self] name in
+            self?.internalFilesManager.addFolderToFolder(withName: name)
+            self?.loadDataFromDocumentDirectory()
+        }
+        self.createFolderDialog?.show(from: self)
+    }
+    
+    // MARK: - Private
+    
+    private func removeInternalFile(atPath absolutePath: String) {
+        guard FileManager.default.fileExists(atPath: absolutePath) else { return }
+        do {
+            try FileManager.default.removeItem(atPath: absolutePath)
+        } catch let error as NSError {
+            print(error.localizedDescription)
+            return
+        }
     }
 }
 
@@ -61,8 +91,14 @@ extension InternalFilesViewController: UITableViewDelegate {
             return
         }
         // TODO: - нормальный роутинг
-        let audioPlayerVC = AudioPlayerViewController(file: selectedFile)
-        self.navigationController?.pushViewController(audioPlayerVC, animated: true)
+        guard (selectedFile as? Folder) != nil else {
+            let audioPlayerVC = AudioPlayerViewController(file: selectedFile)
+            self.navigationController?.pushViewController(audioPlayerVC, animated: true)
+            return
+        }
+        let internalFilesBuilder = InternalFilesBuilder()
+        let internalFilesViewController = internalFilesBuilder.build(path: selectedFile.absolutePath)
+        self.navigationController?.pushViewController(internalFilesViewController, animated: true)
     }
 }
 
@@ -75,8 +111,8 @@ extension InternalFilesViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let dequeuedCell = tableView.dequeueReusableCell(withIdentifier: String(describing: InternalFileTableViewCell.self), for: indexPath)
-        guard let cell = dequeuedCell as? InternalFileTableViewCell else {
+        let dequeuedCell = tableView.dequeueReusableCell(withIdentifier: String(describing: InternalFileCell.self), for: indexPath)
+        guard let cell = dequeuedCell as? InternalFileCell else {
             assertionFailure("Unexpected cell type: \(type(of: dequeuedCell))")
             return dequeuedCell
         }
@@ -84,7 +120,21 @@ extension InternalFilesViewController: UITableViewDataSource {
             cell.setEmptyDirectoryCell()
             return cell
         }
-        cell.internalFileLabel?.text = self.internalFiles[indexPath.row].name
+        cell.name.text = self.internalFiles[indexPath.row].name
+        guard (self.internalFiles[indexPath.row] as? Folder) != nil else {
+            cell.iconImageView.isHidden = true
+            return cell
+        }
+        cell.iconImageView.image = UIImage(named: "Folder")
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            guard !self.internalFiles.isEmpty else { return }
+            self.removeInternalFile(atPath: self.internalFiles[indexPath.row].absolutePath)
+            self.internalFiles.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
     }
 }

@@ -11,7 +11,7 @@ import MediaPlayer
 
 public final class AudioPlayerViewController: UIViewController {
     
-    private let file: InternalFile
+    private let file: FileSystemEntity
     
     // TODO: зависимость от синглтона вынести в assembly модуля
     private let player: AudioPlayerInterface = AudioPlayer.shared
@@ -25,7 +25,7 @@ public final class AudioPlayerViewController: UIViewController {
     
     // MARK: - Init
     
-    init(file: InternalFile) {
+    init(file: FileSystemEntity) {
         self.file = file
         super.init(nibName: nil, bundle: nil)
     }
