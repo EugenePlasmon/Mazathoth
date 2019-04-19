@@ -12,7 +12,8 @@
 		94DBEE4F22610DEA0084CDC6 /* InternalFileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DBEE4D22610DEA0084CDC6 /* InternalFileTableViewCell.swift */; };
 		94DBEE5022610DEA0084CDC6 /* InternalFileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94DBEE4E22610DEA0084CDC6 /* InternalFileTableViewCell.xib */; };
 		94DBEE5322610F050084CDC6 /* InternalFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DBEE5222610F050084CDC6 /* InternalFile.swift */; };
-		94DBEE572263B6A70084CDC6 /* InternalFilesFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DBEE562263B6A70084CDC6 /* InternalFilesFetcher.swift */; };
+		94DBEE572263B6A70084CDC6 /* InternalFilesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DBEE562263B6A70084CDC6 /* InternalFilesManager.swift */; };
+		94DBEE62226F926C0084CDC6 /* CreateFolderDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DBEE61226F926C0084CDC6 /* CreateFolderDialog.swift */; };
 		F82844832260F9030089EEBD /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82844822260F9030089EEBD /* Array+Extensions.swift */; };
 		F82844852260F9180089EEBD /* Monads.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82844842260F9180089EEBD /* Monads.swift */; };
 		F82844882260F9C70089EEBD /* CGColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82844872260F9C70089EEBD /* CGColor+Extensions.swift */; };
@@ -23,7 +24,7 @@
 		F82D805F225D11F2006DDAB3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F82D805E225D11F2006DDAB3 /* Assets.xcassets */; };
 		F82D8062225D11F2006DDAB3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F82D8060225D11F2006DDAB3 /* LaunchScreen.storyboard */; };
 		F84884542267C0830047294F /* AppLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84884532267C0830047294F /* AppLauncher.swift */; };
-		F84884562267C1B30047294F /* InternalFilesFetcherInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84884552267C1B30047294F /* InternalFilesFetcherInterface.swift */; };
+		F84884562267C1B30047294F /* InternalFilesManagerInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84884552267C1B30047294F /* InternalFilesManagerInterface.swift */; };
 		F8C72ABC2268846D00B0AB0D /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C72ABB2268846D00B0AB0D /* AudioPlayer.swift */; };
 		F8C72B7F2268C56A00B0AB0D /* AudioPlayerInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C72B7E2268C56A00B0AB0D /* AudioPlayerInterface.swift */; };
 /* End PBXBuildFile section */
@@ -34,7 +35,8 @@
 		94DBEE4D22610DEA0084CDC6 /* InternalFileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalFileTableViewCell.swift; sourceTree = "<group>"; };
 		94DBEE4E22610DEA0084CDC6 /* InternalFileTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InternalFileTableViewCell.xib; sourceTree = "<group>"; };
 		94DBEE5222610F050084CDC6 /* InternalFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalFile.swift; sourceTree = "<group>"; };
-		94DBEE562263B6A70084CDC6 /* InternalFilesFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalFilesFetcher.swift; sourceTree = "<group>"; };
+		94DBEE562263B6A70084CDC6 /* InternalFilesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalFilesManager.swift; sourceTree = "<group>"; };
+		94DBEE61226F926C0084CDC6 /* CreateFolderDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFolderDialog.swift; sourceTree = "<group>"; };
 		F82844822260F9030089EEBD /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		F82844842260F9180089EEBD /* Monads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monads.swift; sourceTree = "<group>"; };
 		F82844872260F9C70089EEBD /* CGColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGColor+Extensions.swift"; sourceTree = "<group>"; };
@@ -47,7 +49,7 @@
 		F82D8061225D11F2006DDAB3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F82D8063225D11F2006DDAB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F84884532267C0830047294F /* AppLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLauncher.swift; sourceTree = "<group>"; };
-		F84884552267C1B30047294F /* InternalFilesFetcherInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalFilesFetcherInterface.swift; sourceTree = "<group>"; };
+		F84884552267C1B30047294F /* InternalFilesManagerInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalFilesManagerInterface.swift; sourceTree = "<group>"; };
 		F8C72ABB2268846D00B0AB0D /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		F8C72B7E2268C56A00B0AB0D /* AudioPlayerInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerInterface.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -86,7 +88,7 @@
 				F84884512267C06B0047294F /* AppDelegate */,
 				F84884522267C0730047294F /* AppLauncher */,
 				F8C72ABA2268845C00B0AB0D /* AudioPlayer */,
-				F84884502267C0610047294F /* InternalFilesFetcher */,
+				F84884502267C0610047294F /* InternalFilesManager */,
 				F82844862260F9960089EEBD /* Extensions */,
 				F848844D2267BFFA0047294F /* Operators */,
 			);
@@ -164,17 +166,18 @@
 				94DBEE4C22610DCC0084CDC6 /* Cell */,
 				94DBEE47226106F50084CDC6 /* InternalFilesViewController.swift */,
 				94DBEE4A22610CF30084CDC6 /* InternalFilesView.swift */,
+				94DBEE61226F926C0084CDC6 /* CreateFolderDialog.swift */,
 			);
 			path = InternalFiles;
 			sourceTree = "<group>";
 		};
-		F84884502267C0610047294F /* InternalFilesFetcher */ = {
+		F84884502267C0610047294F /* InternalFilesManager */ = {
 			isa = PBXGroup;
 			children = (
-				F84884552267C1B30047294F /* InternalFilesFetcherInterface.swift */,
-				94DBEE562263B6A70084CDC6 /* InternalFilesFetcher.swift */,
+				F84884552267C1B30047294F /* InternalFilesManagerInterface.swift */,
+				94DBEE562263B6A70084CDC6 /* InternalFilesManager.swift */,
 			);
-			path = InternalFilesFetcher;
+			path = InternalFilesManager;
 			sourceTree = "<group>";
 		};
 		F84884512267C06B0047294F /* AppDelegate */ = {
@@ -304,14 +307,15 @@
 				94DBEE48226106F50084CDC6 /* InternalFilesViewController.swift in Sources */,
 				F8C72B7F2268C56A00B0AB0D /* AudioPlayerInterface.swift in Sources */,
 				F828448C22638DA90089EEBD /* AudioPlayerViewController.swift in Sources */,
+				94DBEE62226F926C0084CDC6 /* CreateFolderDialog.swift in Sources */,
 				F828448F226396060089EEBD /* PlayPauseButton.swift in Sources */,
 				F828448A2260FAE20089EEBD /* UIColor+Extensions.swift in Sources */,
 				F82844852260F9180089EEBD /* Monads.swift in Sources */,
-				F84884562267C1B30047294F /* InternalFilesFetcherInterface.swift in Sources */,
+				F84884562267C1B30047294F /* InternalFilesManagerInterface.swift in Sources */,
 				F82844832260F9030089EEBD /* Array+Extensions.swift in Sources */,
 				F82844882260F9C70089EEBD /* CGColor+Extensions.swift in Sources */,
 				F84884542267C0830047294F /* AppLauncher.swift in Sources */,
-				94DBEE572263B6A70084CDC6 /* InternalFilesFetcher.swift in Sources */,
+				94DBEE572263B6A70084CDC6 /* InternalFilesManager.swift in Sources */,
 				F82D8058225D11F0006DDAB3 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -451,7 +455,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = XF789GF2K7;
 				INFOPLIST_FILE = Mazathoth/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -469,7 +473,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = XF789GF2K7;
 				INFOPLIST_FILE = Mazathoth/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

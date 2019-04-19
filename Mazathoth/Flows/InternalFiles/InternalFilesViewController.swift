@@ -12,12 +12,13 @@ final class InternalFilesViewController: UIViewController {
     
     private var internalFiles: [InternalFile] = []
     private let internalFilesView = InternalFilesView()
+    private var createFolderDialog = CreateFolderDialog()
     
-    private let fetcher: InternalFilesFetcherInterface
+    private let fetcher: InternalFilesManagerInterface
     
     // MARK: - Init
     
-    init(fetcher: InternalFilesFetcherInterface) {
+    init(fetcher: InternalFilesManagerInterface) {
         self.fetcher = fetcher
         super.init(nibName: nil, bundle: nil)
     }
@@ -31,6 +32,7 @@ final class InternalFilesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addSubviews()
+        self.addNavigationItem()
         self.loadDataFromDocumentDirectory()
     }
     
@@ -48,6 +50,25 @@ final class InternalFilesViewController: UIViewController {
         self.internalFilesView.frame = view.bounds
         self.internalFilesView.tableView.delegate = self
         self.internalFilesView.tableView.dataSource = self
+    }
+    
+    // MARK: - Navigation bar
+    
+    private func addNavigationItem() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.createFolder))
+    }
+}
+
+// MARK: - Alert
+
+extension InternalFilesViewController {
+    
+    @objc private func createFolder() {
+        self.createFolderDialog = CreateFolderDialog { name in
+            self.fetcher.addFolderToDocumentsFolder(withName: name)
+            self.loadDataFromDocumentDirectory()
+        }
+        self.createFolderDialog.show(from: self)
     }
 }
 
@@ -86,5 +107,24 @@ extension InternalFilesViewController: UITableViewDataSource {
         }
         cell.internalFileLabel?.text = self.internalFiles[indexPath.row].name
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            guard !self.internalFiles.isEmpty else { return }
+            self.removeInternalFile(atPath: self.internalFiles[indexPath.row].absolutePath)
+            self.internalFiles.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
+    private func removeInternalFile(atPath absolutePath: String) {
+        guard FileManager.default.fileExists(atPath: absolutePath) else { return }
+        do {
+            try FileManager.default.removeItem(atPath: absolutePath)
+        } catch let error as NSError {
+            print(error.localizedDescription)
+            return
+        }
     }
 }

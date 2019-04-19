@@ -17,7 +17,7 @@ final class AppLauncher {
     }
     
     func start() {
-        let filesVC = InternalFilesViewController(fetcher: InternalFilesFetcher())
+        let filesVC = InternalFilesViewController(fetcher: InternalFilesManager())
         let navVC = UINavigationController(rootViewController: filesVC)
         self.window?.rootViewController = navVC
         self.window?.makeKeyAndVisible()
