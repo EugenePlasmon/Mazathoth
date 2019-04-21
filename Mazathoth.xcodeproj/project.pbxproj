@@ -24,6 +24,8 @@
 		F82D8062225D11F2006DDAB3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F82D8060225D11F2006DDAB3 /* LaunchScreen.storyboard */; };
 		F84884542267C0830047294F /* AppLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84884532267C0830047294F /* AppLauncher.swift */; };
 		F84884562267C1B30047294F /* InternalFilesFetcherInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84884552267C1B30047294F /* InternalFilesFetcherInterface.swift */; };
+		F8C72ABC2268846D00B0AB0D /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C72ABB2268846D00B0AB0D /* AudioPlayer.swift */; };
+		F8C72B7F2268C56A00B0AB0D /* AudioPlayerInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C72B7E2268C56A00B0AB0D /* AudioPlayerInterface.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +48,8 @@
 		F82D8063225D11F2006DDAB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F84884532267C0830047294F /* AppLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLauncher.swift; sourceTree = "<group>"; };
 		F84884552267C1B30047294F /* InternalFilesFetcherInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalFilesFetcherInterface.swift; sourceTree = "<group>"; };
+		F8C72ABB2268846D00B0AB0D /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		F8C72B7E2268C56A00B0AB0D /* AudioPlayerInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerInterface.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +85,7 @@
 			children = (
 				F84884512267C06B0047294F /* AppDelegate */,
 				F84884522267C0730047294F /* AppLauncher */,
+				F8C72ABA2268845C00B0AB0D /* AudioPlayer */,
 				F84884502267C0610047294F /* InternalFilesFetcher */,
 				F82844862260F9960089EEBD /* Extensions */,
 				F848844D2267BFFA0047294F /* Operators */,
@@ -212,6 +217,15 @@
 			path = Interface;
 			sourceTree = "<group>";
 		};
+		F8C72ABA2268845C00B0AB0D /* AudioPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				F8C72B7E2268C56A00B0AB0D /* AudioPlayerInterface.swift */,
+				F8C72ABB2268846D00B0AB0D /* AudioPlayer.swift */,
+			);
+			path = AudioPlayer;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -285,8 +299,10 @@
 			files = (
 				94DBEE5322610F050084CDC6 /* InternalFile.swift in Sources */,
 				94DBEE4B22610CF30084CDC6 /* InternalFilesView.swift in Sources */,
+				F8C72ABC2268846D00B0AB0D /* AudioPlayer.swift in Sources */,
 				94DBEE4F22610DEA0084CDC6 /* InternalFileTableViewCell.swift in Sources */,
 				94DBEE48226106F50084CDC6 /* InternalFilesViewController.swift in Sources */,
+				F8C72B7F2268C56A00B0AB0D /* AudioPlayerInterface.swift in Sources */,
 				F828448C22638DA90089EEBD /* AudioPlayerViewController.swift in Sources */,
 				F828448F226396060089EEBD /* PlayPauseButton.swift in Sources */,
 				F828448A2260FAE20089EEBD /* UIColor+Extensions.swift in Sources */,
