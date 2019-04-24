@@ -1,5 +1,5 @@
 //
-//  InternalFilesFetcherInterface.swift
+//  InternalFilesManagerInterface.swift
 //  Mazathoth
 //
 //  Created by Evgeny Kireev on 17/04/2019.
@@ -8,7 +8,9 @@
 
 import Foundation
 
-protocol InternalFilesFetcherInterface {
+protocol InternalFilesManagerInterface {
     
     func filesFromDocumentsFolder() throws -> [InternalFile]
+    
+    func addFolderToDocumentsFolder(whithName name: String)
 }
