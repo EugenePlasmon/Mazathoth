@@ -50,7 +50,9 @@ final class InternalFilesViewController: UIViewController {
         self.internalFilesView.tableView.delegate = self
         self.internalFilesView.tableView.dataSource = self
     }
-
+    
+    // MARK: - Navigation bar
+    
     private func addNavigationItem() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.createFolder))
     }
@@ -61,11 +63,12 @@ final class InternalFilesViewController: UIViewController {
 extension InternalFilesViewController {
     
     @objc private func createFolder() {
-        let alertManager = AlertManager()
-        alertManager.createFolder(viewController: self)
-        //self.fetcher.addFolderToDocumentsFolder(whithName: nameFolder)
-        //self.loadDataFromDocumentDirectory()
-        //self.internalFilesView.tableView.reloadData()
+        let createFolderDialog = CreateFolderDialog { name in
+            self.fetcher.addFolderToDocumentsFolder(withName: name)
+            self.loadDataFromDocumentDirectory()
+            self.internalFilesView.tableView.reloadData()
+        }
+        createFolderDialog.show(from: self)
     }
 }
 

@@ -12,5 +12,5 @@ protocol InternalFilesManagerInterface {
     
     func filesFromDocumentsFolder() throws -> [InternalFile]
     
-    func addFolderToDocumentsFolder(whithName name: String)
+    func addFolderToDocumentsFolder(withName name: String)
 }

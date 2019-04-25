@@ -27,7 +27,7 @@ final class InternalFilesManager: InternalFilesManagerInterface {
     
     // MARK: - Add folder to Document directory
     
-    func addFolderToDocumentsFolder(whithName name: String) {
+    func addFolderToDocumentsFolder(withName name: String) {
         guard let directory = directories.first else {
             return
         }
