@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class CreateFolderDialog {
+final class CreateFolderDialog: NSObject, UITextFieldDelegate {
     
     typealias OnOkActionClosure = (_ name: String) -> Void
     private let onOkAction: OnOkActionClosure?
@@ -36,7 +36,9 @@ final class CreateFolderDialog {
         self.alert = UIAlertController(title: self.title, message: self.message, preferredStyle: .alert)
         guard let alert = self.alert else { return }
         alert.addTextField { (textField) in
+            textField.delegate = self
             textField.placeholder = DefaultTexts.placeholder
+            textField.addTarget(self, action: #selector(self.textFieldDidChange), for: .editingChanged)
         }
         let alertCancelAction = UIAlertAction(title: "Отмена", style: .cancel)
         self.alertSaveAction = UIAlertAction(title: "Сохранить", style: .default) { [weak self, weak alert] _ in
@@ -45,16 +47,18 @@ final class CreateFolderDialog {
         }
         guard let alertSaveAction = self.alertSaveAction else { return }
         alertSaveAction.isEnabled = false
-        if let textField = alert.textFields?.first {
-            textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        }
         alert.addAction(alertCancelAction)
         alert.addAction(alertSaveAction)
         viewController.present(alert, animated: true, completion: nil)
     }
     
-    @objc func textFieldDidChange() {
+    @objc private func textFieldDidChange() {
         guard let alert = self.alert, let alertSaveAction = self.alertSaveAction, let textField = alert.textFields?.first, let name = textField.text else { return }
         alertSaveAction.isEnabled = !name.isEmpty
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let set = CharacterSet.alphanumerics
+        return string == String(string.unicodeScalars.filter { set.contains($0) })
     }
 }

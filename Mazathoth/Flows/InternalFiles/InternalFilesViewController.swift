@@ -64,9 +64,9 @@ final class InternalFilesViewController: UIViewController {
 extension InternalFilesViewController {
     
     @objc private func createFolder() {
-        self.createFolderDialog = CreateFolderDialog { name in
-            self.fetcher.addFolderToDocumentsFolder(withName: name)
-            self.loadDataFromDocumentDirectory()
+        self.createFolderDialog = CreateFolderDialog { [weak self] name in
+            self?.fetcher.addFolderToDocumentsFolder(withName: name)
+            self?.loadDataFromDocumentDirectory()
         }
         self.createFolderDialog.show(from: self)
     }
@@ -127,4 +127,5 @@ extension InternalFilesViewController: UITableViewDataSource {
             return
         }
     }
+    
 }
