@@ -58,7 +58,8 @@ final class CreateFolderDialog: NSObject, UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let set = CharacterSet.alphanumerics
+        var set = CharacterSet.alphanumerics
+        set.insert(charactersIn: " -_.")
         return string == String(string.unicodeScalars.filter { set.contains($0) })
     }
 }

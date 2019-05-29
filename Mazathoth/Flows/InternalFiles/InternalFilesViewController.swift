@@ -12,7 +12,7 @@ final class InternalFilesViewController: UIViewController {
     
     private var internalFiles: [InternalFile] = []
     private let internalFilesView = InternalFilesView()
-    private var createFolderDialog = CreateFolderDialog()
+    private var createFolderDialog: CreateFolderDialog?
     
     private let fetcher: InternalFilesManagerInterface
     
@@ -57,18 +57,27 @@ final class InternalFilesViewController: UIViewController {
     private func addNavigationItem() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.createFolder))
     }
-}
-
-// MARK: - Alert
-
-extension InternalFilesViewController {
+    
+    // MARK: - Alert
     
     @objc private func createFolder() {
         self.createFolderDialog = CreateFolderDialog { [weak self] name in
             self?.fetcher.addFolderToDocumentsFolder(withName: name)
             self?.loadDataFromDocumentDirectory()
         }
-        self.createFolderDialog.show(from: self)
+        self.createFolderDialog?.show(from: self)
+    }
+    
+    // MARK: - Private
+    
+    private func removeInternalFile(atPath absolutePath: String) {
+        guard FileManager.default.fileExists(atPath: absolutePath) else { return }
+        do {
+            try FileManager.default.removeItem(atPath: absolutePath)
+        } catch let error as NSError {
+            print(error.localizedDescription)
+            return
+        }
     }
 }
 
@@ -117,15 +126,4 @@ extension InternalFilesViewController: UITableViewDataSource {
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
-    
-    private func removeInternalFile(atPath absolutePath: String) {
-        guard FileManager.default.fileExists(atPath: absolutePath) else { return }
-        do {
-            try FileManager.default.removeItem(atPath: absolutePath)
-        } catch let error as NSError {
-            print(error.localizedDescription)
-            return
-        }
-    }
-    
 }
