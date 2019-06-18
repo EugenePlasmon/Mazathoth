@@ -112,8 +112,8 @@ extension InternalFilesViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let dequeuedCell = tableView.dequeueReusableCell(withIdentifier: String(describing: InternalFileTableViewCell.self), for: indexPath)
-        guard let cell = dequeuedCell as? InternalFileTableViewCell else {
+        let dequeuedCell = tableView.dequeueReusableCell(withIdentifier: String(describing: InternalFileCell.self), for: indexPath)
+        guard let cell = dequeuedCell as? InternalFileCell else {
             assertionFailure("Unexpected cell type: \(type(of: dequeuedCell))")
             return dequeuedCell
         }
@@ -121,7 +121,12 @@ extension InternalFilesViewController: UITableViewDataSource {
             cell.setEmptyDirectoryCell()
             return cell
         }
-        cell.internalFileLabel?.text = self.internalFiles[indexPath.row].name
+        cell.name.text = self.internalFiles[indexPath.row].name
+        guard ((self.internalFiles[indexPath.row] as? Folder) != nil) else {
+            cell.iconImageView.isHidden = true
+            return cell
+        }
+        cell.iconImageView.image = UIImage(named: "Folder")
         return cell
     }
     

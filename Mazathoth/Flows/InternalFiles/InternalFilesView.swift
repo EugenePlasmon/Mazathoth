@@ -33,8 +33,7 @@ final class InternalFilesView: UIView {
     private func addSubviews() {
         self.addSubview(tableView)
         tableView.tableFooterView = UIView(frame: CGRect.zero)
-        let nib = UINib(nibName: String(describing: InternalFileTableViewCell.self), bundle: nil)
-        tableView.register(nib, forCellReuseIdentifier: String(describing: InternalFileTableViewCell.self))
+        tableView.register(InternalFileCell.self, forCellReuseIdentifier: String(describing: InternalFileCell.self))
     }
     
     // MARK: - Layout
