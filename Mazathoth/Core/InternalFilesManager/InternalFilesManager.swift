@@ -14,14 +14,25 @@ final class InternalFilesManager: InternalFilesManagerInterface {
     
     // MARK: - Fetch InternalFiles from Document directory
     
-    func filesFromDocumentsFolder() throws -> [InternalFile] {
+    func filesFromDocumentsFolder() throws -> [FileSystemEntity] {
         guard let directory = directories.first else {
             return []
         }
         let files = try FileManager.default.contentsOfDirectory(atPath: directory)
         return files.compactMap {
             let absolutePath = (directory as NSString).appendingPathComponent($0)
-            return InternalFile(name: $0, absolutePath: absolutePath)
+            guard let attributes = try? FileManager.default.attributesOfItem(atPath: absolutePath), let type = attributes[.type] as? FileAttributeType else {
+                return nil
+            }
+            switch type {
+            case .typeRegular:
+                return File(name: $0, absolutePath: absolutePath)
+            case .typeDirectory:
+                return Folder(name: $0, absolutePath: absolutePath)
+            default:
+                break
+            }
+            return nil
         }
     }
     

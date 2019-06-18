@@ -10,7 +10,7 @@ import Foundation
 
 protocol InternalFilesManagerInterface {
     
-    func filesFromDocumentsFolder() throws -> [InternalFile]
+    func filesFromDocumentsFolder() throws -> [FileSystemEntity]
     
     func addFolderToDocumentsFolder(withName name: String)
 }

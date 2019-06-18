@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		942093C622B8EDCE007057FF /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942093C522B8EDCE007057FF /* Folder.swift */; };
+		942093C822B8EE35007057FF /* FileSystemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942093C722B8EE35007057FF /* FileSystemEntity.swift */; };
 		94DBEE48226106F50084CDC6 /* InternalFilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DBEE47226106F50084CDC6 /* InternalFilesViewController.swift */; };
 		94DBEE4B22610CF30084CDC6 /* InternalFilesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DBEE4A22610CF30084CDC6 /* InternalFilesView.swift */; };
 		94DBEE4F22610DEA0084CDC6 /* InternalFileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DBEE4D22610DEA0084CDC6 /* InternalFileTableViewCell.swift */; };
 		94DBEE5022610DEA0084CDC6 /* InternalFileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94DBEE4E22610DEA0084CDC6 /* InternalFileTableViewCell.xib */; };
-		94DBEE5322610F050084CDC6 /* InternalFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DBEE5222610F050084CDC6 /* InternalFile.swift */; };
+		94DBEE5322610F050084CDC6 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DBEE5222610F050084CDC6 /* File.swift */; };
 		94DBEE572263B6A70084CDC6 /* InternalFilesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DBEE562263B6A70084CDC6 /* InternalFilesManager.swift */; };
 		94DBEE62226F926C0084CDC6 /* CreateFolderDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DBEE61226F926C0084CDC6 /* CreateFolderDialog.swift */; };
 		F82844832260F9030089EEBD /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82844822260F9030089EEBD /* Array+Extensions.swift */; };
@@ -30,11 +32,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		942093C522B8EDCE007057FF /* Folder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
+		942093C722B8EE35007057FF /* FileSystemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemEntity.swift; sourceTree = "<group>"; };
 		94DBEE47226106F50084CDC6 /* InternalFilesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalFilesViewController.swift; sourceTree = "<group>"; };
 		94DBEE4A22610CF30084CDC6 /* InternalFilesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalFilesView.swift; sourceTree = "<group>"; };
 		94DBEE4D22610DEA0084CDC6 /* InternalFileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalFileTableViewCell.swift; sourceTree = "<group>"; };
 		94DBEE4E22610DEA0084CDC6 /* InternalFileTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InternalFileTableViewCell.xib; sourceTree = "<group>"; };
-		94DBEE5222610F050084CDC6 /* InternalFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalFile.swift; sourceTree = "<group>"; };
+		94DBEE5222610F050084CDC6 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		94DBEE562263B6A70084CDC6 /* InternalFilesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalFilesManager.swift; sourceTree = "<group>"; };
 		94DBEE61226F926C0084CDC6 /* CreateFolderDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFolderDialog.swift; sourceTree = "<group>"; };
 		F82844822260F9030089EEBD /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
@@ -77,7 +81,9 @@
 		94DBEE5122610E690084CDC6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				94DBEE5222610F050084CDC6 /* InternalFile.swift */,
+				942093C722B8EE35007057FF /* FileSystemEntity.swift */,
+				94DBEE5222610F050084CDC6 /* File.swift */,
+				942093C522B8EDCE007057FF /* Folder.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -300,13 +306,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94DBEE5322610F050084CDC6 /* InternalFile.swift in Sources */,
+				94DBEE5322610F050084CDC6 /* File.swift in Sources */,
 				94DBEE4B22610CF30084CDC6 /* InternalFilesView.swift in Sources */,
 				F8C72ABC2268846D00B0AB0D /* AudioPlayer.swift in Sources */,
 				94DBEE4F22610DEA0084CDC6 /* InternalFileTableViewCell.swift in Sources */,
 				94DBEE48226106F50084CDC6 /* InternalFilesViewController.swift in Sources */,
 				F8C72B7F2268C56A00B0AB0D /* AudioPlayerInterface.swift in Sources */,
 				F828448C22638DA90089EEBD /* AudioPlayerViewController.swift in Sources */,
+				942093C822B8EE35007057FF /* FileSystemEntity.swift in Sources */,
 				94DBEE62226F926C0084CDC6 /* CreateFolderDialog.swift in Sources */,
 				F828448F226396060089EEBD /* PlayPauseButton.swift in Sources */,
 				F828448A2260FAE20089EEBD /* UIColor+Extensions.swift in Sources */,
@@ -317,6 +324,7 @@
 				F84884542267C0830047294F /* AppLauncher.swift in Sources */,
 				94DBEE572263B6A70084CDC6 /* InternalFilesManager.swift in Sources */,
 				F82D8058225D11F0006DDAB3 /* AppDelegate.swift in Sources */,
+				942093C622B8EDCE007057FF /* Folder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,7 +10,7 @@ import UIKit
 
 final class InternalFilesViewController: UIViewController {
     
-    private var internalFiles: [InternalFile] = []
+    private var internalFiles: [FileSystemEntity] = []
     private let internalFilesView = InternalFilesView()
     private var createFolderDialog: CreateFolderDialog?
     
@@ -86,14 +86,21 @@ final class InternalFilesViewController: UIViewController {
 extension InternalFilesViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
         guard let selectedFile = self.internalFiles[safe: indexPath.row] else {
             return
         }
-        // TODO: - нормальный роутинг
-        let audioPlayerVC = AudioPlayerViewController(file: selectedFile)
-        self.navigationController?.pushViewController(audioPlayerVC, animated: true)
+        print(selectedFile)
     }
+    
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        tableView.deselectRow(at: indexPath, animated: true)
+//        guard let selectedFile = self.internalFiles[safe: indexPath.row] else {
+//            return
+//        }
+//        // TODO: - нормальный роутинг
+//        let audioPlayerVC = AudioPlayerViewController(file: selectedFile)
+//        self.navigationController?.pushViewController(audioPlayerVC, animated: true)
+//    }
 }
 
 // MARK: - DataSource

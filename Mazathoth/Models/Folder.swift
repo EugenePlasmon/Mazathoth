@@ -1,14 +1,14 @@
 //
-//  InternalFile.swift
+//  Folder.swift
 //  Mazathoth
 //
-//  Created by Nadezhda on 12/04/2019.
+//  Created by Nadezhda on 18/06/2019.
 //  Copyright © 2019 plasmon. All rights reserved.
 //
 
 import Foundation
 
-struct InternalFile {
+struct Folder: FileSystemEntity {
     let name: String
     let absolutePath: String
 }
