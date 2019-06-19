@@ -11,12 +11,16 @@ import UIKit
 final class InternalFilesManager: InternalFilesManagerInterface {
     
     let directories = NSSearchPathForDirectoriesInDomains(.documentDirectory, .allDomainsMask, true)
+    var directory: String?
     
     // MARK: - Fetch InternalFiles from Document directory
     
     func filesFromDocumentsFolder() throws -> [FileSystemEntity] {
-        guard let directory = directories.first else {
+        guard var directory = directories.first else {
             return []
+        }
+        if let dir = self.directory, dir != directory {
+            directory = dir
         }
         let files = try FileManager.default.contentsOfDirectory(atPath: directory)
         return files.compactMap {
@@ -39,8 +43,11 @@ final class InternalFilesManager: InternalFilesManagerInterface {
     // MARK: - Add folder to Document directory
     
     func addFolderToDocumentsFolder(withName name: String) {
-        guard let directory = directories.first else {
+        guard var directory = directories.first else {
             return
+        }
+        if let dir = self.directory, dir != directory {
+            directory = dir
         }
         let absolutePath = (directory as NSString).appendingPathComponent(name)
         do {

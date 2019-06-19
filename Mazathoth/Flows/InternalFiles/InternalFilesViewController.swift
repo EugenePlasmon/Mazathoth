@@ -14,7 +14,7 @@ final class InternalFilesViewController: UIViewController {
     private let internalFilesView = InternalFilesView()
     private var createFolderDialog: CreateFolderDialog?
     
-    private let fetcher: InternalFilesManagerInterface
+    private var fetcher: InternalFilesManagerInterface
     
     // MARK: - Init
     
@@ -86,21 +86,20 @@ final class InternalFilesViewController: UIViewController {
 extension InternalFilesViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         guard let selectedFile = self.internalFiles[safe: indexPath.row] else {
             return
         }
-        print(selectedFile)
+        // TODO: - нормальный роутинг
+        guard ((selectedFile as? Folder) != nil) else {
+            let audioPlayerVC = AudioPlayerViewController(file: selectedFile)
+            self.navigationController?.pushViewController(audioPlayerVC, animated: true)
+            return
+        }
+        self.fetcher.directory = selectedFile.absolutePath
+        let internalFilesViewController = InternalFilesViewController(fetcher: fetcher)
+        self.navigationController?.pushViewController(internalFilesViewController, animated: true)
     }
-    
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
-//        guard let selectedFile = self.internalFiles[safe: indexPath.row] else {
-//            return
-//        }
-//        // TODO: - нормальный роутинг
-//        let audioPlayerVC = AudioPlayerViewController(file: selectedFile)
-//        self.navigationController?.pushViewController(audioPlayerVC, animated: true)
-//    }
 }
 
 // MARK: - DataSource
