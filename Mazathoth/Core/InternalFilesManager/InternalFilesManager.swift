@@ -29,7 +29,7 @@ final class InternalFilesManager: InternalFilesManagerInterface {
         }
         let files = try FileManager.default.contentsOfDirectory(atPath: directoryPath)
         return files.compactMap {
-            let absolutePath = (directoryPath as NSString).appendingPathComponent($0)
+            let absolutePath = directoryPath.appendingPathComponent($0)
             guard let attributes = try? FileManager.default.attributesOfItem(atPath: absolutePath), let type = attributes[.type] as? FileAttributeType else {
                 return nil
             }
@@ -51,7 +51,7 @@ final class InternalFilesManager: InternalFilesManagerInterface {
         guard let directoryPath = self.path ?? self.documentsDirectoryPath else {
             return
         }
-        let absolutePath = (directoryPath as NSString).appendingPathComponent(name)
+        let absolutePath = directoryPath.appendingPathComponent(name)
         do {
             try FileManager.default.createDirectory(atPath: absolutePath, withIntermediateDirectories: false, attributes: nil)
         } catch {

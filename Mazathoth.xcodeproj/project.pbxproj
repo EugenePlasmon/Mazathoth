@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		940C069522DF7D33007BBC27 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940C069422DF7D32007BBC27 /* String+Extensions.swift */; };
 		9410EC7122D6351600146F89 /* InternalFilesBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9410EC7022D6351600146F89 /* InternalFilesBuilder.swift */; };
 		942093C622B8EDCE007057FF /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942093C522B8EDCE007057FF /* Folder.swift */; };
 		942093C822B8EE35007057FF /* FileSystemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942093C722B8EE35007057FF /* FileSystemEntity.swift */; };
@@ -32,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		940C069422DF7D32007BBC27 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		9410EC7022D6351600146F89 /* InternalFilesBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalFilesBuilder.swift; sourceTree = "<group>"; };
 		942093C522B8EDCE007057FF /* Folder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
 		942093C722B8EE35007057FF /* FileSystemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemEntity.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 				F82844822260F9030089EEBD /* Array+Extensions.swift */,
 				F82844872260F9C70089EEBD /* CGColor+Extensions.swift */,
 				F82844892260FAE20089EEBD /* UIColor+Extensions.swift */,
+				940C069422DF7D32007BBC27 /* String+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -318,6 +321,7 @@
 				F828448A2260FAE20089EEBD /* UIColor+Extensions.swift in Sources */,
 				F82844852260F9180089EEBD /* Monads.swift in Sources */,
 				F84884562267C1B30047294F /* InternalFilesManagerInterface.swift in Sources */,
+				940C069522DF7D33007BBC27 /* String+Extensions.swift in Sources */,
 				F82844832260F9030089EEBD /* Array+Extensions.swift in Sources */,
 				942093CA22B93834007057FF /* InternalFileCell.swift in Sources */,
 				F82844882260F9C70089EEBD /* CGColor+Extensions.swift in Sources */,

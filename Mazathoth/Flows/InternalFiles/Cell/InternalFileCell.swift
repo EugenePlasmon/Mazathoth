@@ -40,6 +40,7 @@ final class InternalFileCell: UITableViewCell {
     }
     
     func setEmptyDirectoryCell() {
+        self.iconImageView.image = nil
         self.name.text = "No files found"
     }
     
