@@ -2,13 +2,13 @@
 //  InternalFileCell.swift
 //  Mazathoth
 //
-//  Created by Nadezhda on 18/06/2019.
+//  Created by Nadezhda on 23/08/2019.
 //  Copyright © 2019 plasmon. All rights reserved.
 //
 
 import UIKit
 
-final class InternalFileCell: UITableViewCell {
+class InternalFileCell: UICollectionViewCell, InternalFileCellInterface {
     
     private(set) var name: UILabel = {
         let label = UILabel()
@@ -22,15 +22,22 @@ final class InternalFileCell: UITableViewCell {
     private(set) var iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         return imageView
     }()
     
+    private(set) var delButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(named: "deleteIcon"), for: .normal)
+        return button
+    }()
+    
     // MARK: - Init
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         self.configureUI()
     }
     
@@ -47,26 +54,27 @@ final class InternalFileCell: UITableViewCell {
     // MARK: - UI
     
     private func configureUI() {
+        self.backgroundColor = .white
         self.addIconImageView()
         self.addNameLabel()
+        self.addDelButton()
     }
     
-    private func addNameLabel() {
-        self.contentView.addSubview(self.name)
-        NSLayoutConstraint.activate([
-            self.name.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 8.0),
-            self.name.leftAnchor.constraint(equalTo: self.iconImageView.rightAnchor, constant: 8.0),
-            self.name.rightAnchor.constraint(lessThanOrEqualTo: self.contentView.rightAnchor, constant: -40),
-            self.name.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor)
-            ])
-    }
-    
-    private func addIconImageView() {
+    func addIconImageView() {
         self.contentView.addSubview(self.iconImageView)
+    }
+    
+    func addNameLabel() {
+        self.contentView.addSubview(self.name)
+    }
+    
+    private func addDelButton() {
+        self.contentView.addSubview(self.delButton)
         NSLayoutConstraint.activate([
-            self.iconImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 8.0),
-            self.iconImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 12.0),
-            self.iconImageView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
+            self.delButton.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 8.0),
+            self.delButton.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -8.0),
+            self.delButton.widthAnchor.constraint(equalToConstant: 20.0),
+            self.delButton.heightAnchor.constraint(equalToConstant: 20.0)
             ])
     }
 }

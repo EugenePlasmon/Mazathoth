@@ -12,5 +12,4 @@ final class InternalFilesBuilder {
         let internalFilesManager = InternalFilesManager(path: path)
         return InternalFilesViewController(internalFilesManager: internalFilesManager)
     }
-    
 }
