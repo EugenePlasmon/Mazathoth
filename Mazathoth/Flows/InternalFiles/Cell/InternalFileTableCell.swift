@@ -10,24 +10,48 @@ import UIKit
 
 final class InternalFileTableCell: InternalFileCell {
     
-    override func addIconImageView() {
+    override func addUIElements() {
+        self.addIconImageView()
+        self.addNameLabel()
+        self.addCancelButton()
+        self.addPauseButton()
+    }
+    
+    private func addIconImageView() {
         self.contentView.addSubview(self.iconImageView)
         NSLayoutConstraint.activate([
-            self.iconImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 8.0),
             self.iconImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 12.0),
-            self.iconImageView.bottomAnchor.constraint(lessThanOrEqualTo: self.contentView.bottomAnchor, constant: -8.0),
-            self.iconImageView.widthAnchor.constraint(equalToConstant: 50.0),
-            self.iconImageView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor)
+            self.iconImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 8.0),
+            self.iconImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -8.0)
+            ])
+        self.iconImageView.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
+        self.iconImageView.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
+    }
+    
+    private func addNameLabel() {
+        self.contentView.addSubview(self.name)
+        NSLayoutConstraint.activate([
+            self.name.leftAnchor.constraint(equalTo: self.iconImageView.rightAnchor, constant: 2.0),
+            self.name.rightAnchor.constraint(lessThanOrEqualTo: self.contentView.rightAnchor, constant: -55.0),
+            self.name.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 20.0),
+            self.name.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -20.0)
             ])
     }
     
-    override func addNameLabel() {
-        self.contentView.addSubview(self.name)
+    private func addCancelButton() {
+        self.contentView.addSubview(self.cancelButton)
         NSLayoutConstraint.activate([
-            self.name.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 8.0),
-            self.name.leftAnchor.constraint(equalTo: self.iconImageView.rightAnchor, constant: 12.0),
-            self.name.rightAnchor.constraint(lessThanOrEqualTo: self.contentView.rightAnchor, constant: -21.0),
-            self.name.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
+            self.cancelButton.topAnchor.constraint(greaterThanOrEqualTo: self.name.bottomAnchor, constant: 1.0),
+            self.cancelButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -2.0),
+            self.cancelButton.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -20.0),
+            ])
+    }
+    
+    private func addPauseButton() {
+        self.contentView.addSubview(self.pauseOrResumeButton)
+        NSLayoutConstraint.activate([
+            self.pauseOrResumeButton.rightAnchor.constraint(equalTo: self.cancelButton.leftAnchor, constant: -8.0),
+            self.pauseOrResumeButton.centerYAnchor.constraint(equalTo: self.cancelButton.centerYAnchor)
             ])
     }
 }

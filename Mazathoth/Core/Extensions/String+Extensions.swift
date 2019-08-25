@@ -13,4 +13,16 @@ extension String {
     func appendingPathComponent(_ str: String) -> String {
         return (self as NSString).appendingPathComponent(str)
     }
+    
+    func appendingPathExtension(_ str: String) -> String? {
+        return (self as NSString).appendingPathExtension(str)
+    }
+    
+    var pathExtension: String {
+        return (self as NSString).pathExtension
+    }
+    
+    var deletingPathExtension: String {
+        return (self as NSString).deletingPathExtension
+    }
 }

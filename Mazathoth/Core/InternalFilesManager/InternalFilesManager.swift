@@ -17,7 +17,7 @@ final class InternalFilesManager: InternalFilesManagerInterface {
     
     // MARK: - Init
     
-    init(path: String?) {
+    init(path: String? = nil) {
         self.path = path
     }
     
@@ -54,6 +54,26 @@ final class InternalFilesManager: InternalFilesManagerInterface {
         let absolutePath = directoryPath.appendingPathComponent(name)
         do {
             try FileManager.default.createDirectory(atPath: absolutePath, withIntermediateDirectories: false, attributes: nil)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    // MARK: - File actions
+    
+    func removeInternalFile(atPath absolutePath: String) {
+        guard FileManager.default.fileExists(atPath: absolutePath) else { return }
+        do {
+            try FileManager.default.removeItem(atPath: absolutePath)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func moveInternalFile(atPath srcPath: String, toPath dstPath: String) {
+        guard FileManager.default.fileExists(atPath: srcPath) else { return }
+        do {
+            try FileManager.default.moveItem(atPath: srcPath, toPath: dstPath)
         } catch {
             print(error.localizedDescription)
         }

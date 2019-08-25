@@ -17,7 +17,7 @@ final class AppLauncher {
     }
     
     func start() {
-        let filesVC = InternalFilesBuilder().build(path: nil)
+        let filesVC = InternalFilesModuleBuilder().build(path: nil)
         let navVC = UINavigationController(rootViewController: filesVC)
         self.window?.rootViewController = navVC
         self.window?.makeKeyAndVisible()

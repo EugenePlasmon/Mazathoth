@@ -11,4 +11,7 @@ import Foundation
 protocol FileSystemEntity {
     var name: String { get }
     var absolutePath: String { get }
+    var isDownloading: Bool { get }
+    var downloadEntity: DownloadEntity? { get }
+    var isDownloadActive: Bool { get }
 }

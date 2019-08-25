@@ -10,13 +10,13 @@ import UIKit
 
 final class GridLayoutDelegate: NSObject, CustomFlowLayoutDelegate {
     
-    var didSelectItem: ((_ indexPath: IndexPath) -> Void)?
+    var onSelectItem: ((_ indexPath: IndexPath) -> Void)?
     private let sectionInsets = UIEdgeInsets(top: 2.0, left: 2.0, bottom: 2.0, right: 2.0)
     private let amountOfItems: CGFloat = 3
     private let itemSpacing: CGFloat = 2
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        didSelectItem?(indexPath)
+        onSelectItem?(indexPath)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
