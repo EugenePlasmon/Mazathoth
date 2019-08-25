@@ -13,4 +13,8 @@ protocol InternalFilesManagerInterface {
     func fetchFiles() throws -> [FileSystemEntity]
     
     func addFolderToFolder(withName name: String)
+    
+    func removeInternalFile(atPath absolutePath: String)
+    
+    func moveInternalFile(atPath srcPath: String, toPath dstPath: String)
 }

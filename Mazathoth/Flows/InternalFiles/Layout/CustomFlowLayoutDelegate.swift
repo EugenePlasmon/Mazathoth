@@ -9,6 +9,6 @@
 import UIKit
 
 protocol CustomFlowLayoutDelegate: class, UICollectionViewDelegateFlowLayout {
-    var didSelectItem: ((_ indexPath: IndexPath) -> Void)? { get set }
+    var onSelectItem: ((_ indexPath: IndexPath) -> Void)? { get set }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
 }

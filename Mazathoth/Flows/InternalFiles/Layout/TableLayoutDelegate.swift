@@ -10,14 +10,14 @@ import UIKit
 
 final class TableLayoutDelegate: NSObject, CustomFlowLayoutDelegate {
     
-    var didSelectItem: ((_ indexPath: IndexPath) -> Void)?
+    var onSelectItem: ((_ indexPath: IndexPath) -> Void)?
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        didSelectItem?(indexPath)
+        onSelectItem?(indexPath)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 70)
+        return CGSize(width: collectionView.bounds.width, height: 80)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

@@ -11,4 +11,7 @@ import Foundation
 struct Folder: FileSystemEntity {
     let name: String
     let absolutePath: String
+    let isDownloading: Bool = false
+    let downloadEntity: DownloadEntity? = nil
+    let isDownloadActive: Bool = false
 }
