@@ -25,4 +25,15 @@ extension String {
     var deletingPathExtension: String {
         return (self as NSString).deletingPathExtension
     }
+    
+    func unifyName(withAlreadyExistingNames names: [String]) -> String {
+        var name = self.deletingPathExtension
+        var count = 0
+        let names: Set<String> = Set((names.map { $0.deletingPathExtension }))
+        while names.contains(name) {
+            count += 1
+            name = self.deletingPathExtension + "-" + String(count)
+        }
+        return name.appendingPathExtension(self.pathExtension) ?? name
+    }
 }

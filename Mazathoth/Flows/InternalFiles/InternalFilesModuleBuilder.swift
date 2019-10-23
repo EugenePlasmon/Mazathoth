@@ -9,7 +9,7 @@
 final class InternalFilesModuleBuilder {
     
     func build(path: String?) -> InternalFilesViewController {
-        let internalFilesManager = InternalFilesManager(path: path)
-        return InternalFilesViewController(internalFilesManager: internalFilesManager)
+        let internalFileManager = InternalFileManager(path: path)
+        return InternalFilesViewController(internalFileManager: internalFileManager)
     }
 }

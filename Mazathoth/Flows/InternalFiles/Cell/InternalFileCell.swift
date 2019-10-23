@@ -10,7 +10,7 @@ import UIKit
 
 class InternalFileCell: UICollectionViewCell, InternalFileCellInterface {
     
-    let name: UILabel = {
+    let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
@@ -51,15 +51,15 @@ class InternalFileCell: UICollectionViewCell, InternalFileCellInterface {
         return button
     }()
     
-    private enum downloadStatusTitle: String {
+    private enum DownloadStatus: String {
         case pause
         case resume
     }
     
-    var onClickOfDelButton: (() -> Void)?
-    var onClickOfCancelButton: (() -> Void)?
-    var onClickOfPauseButton: (() -> Void)?
-    var onClickOfResumeButton: (() -> Void)?
+    var onDeleteButtonClick: (() -> Void)?
+    var onCancelButtonClick: (() -> Void)?
+    var onPauseButtonClick: (() -> Void)?
+    var onResumeButtonClick: (() -> Void)?
     
     // MARK: - Init
     
@@ -77,7 +77,7 @@ class InternalFileCell: UICollectionViewCell, InternalFileCellInterface {
     
     func setEmptyDirectoryCell() {
         self.iconImageView.image = nil
-        self.name.text = "No files found"
+        self.nameLabel.text = "No files found"
     }
     
     private func buttonАctions() {
@@ -113,7 +113,7 @@ class InternalFileCell: UICollectionViewCell, InternalFileCellInterface {
         self.pauseOrResumeButton.isHidden = !showDownloadControls
         self.cancelButton.isHidden = !showDownloadControls
         
-        let title: String = isActive ? downloadStatusTitle.pause.rawValue : downloadStatusTitle.resume.rawValue
+        let title: String = isActive ? DownloadStatus.pause.rawValue : DownloadStatus.resume.rawValue
         pauseOrResumeButton.setTitle(title, for: .normal)
     }
     
@@ -124,21 +124,21 @@ class InternalFileCell: UICollectionViewCell, InternalFileCellInterface {
     // MARK: - Action
     
     @objc private func delCell(_ sender: UIButton) {
-        self.onClickOfDelButton?()
+        self.onDeleteButtonClick?()
     }
     
     @objc private func cancelDownload(_ sender: UIButton) {
-        self.onClickOfCancelButton?()
+        self.onCancelButtonClick?()
     }
     
     @objc private func pauseOrResumeDownload(_ sender: UIButton) {
         let title: String
-        if (pauseOrResumeButton.titleLabel?.text == downloadStatusTitle.pause.rawValue) {
-            title = downloadStatusTitle.resume.rawValue
-            self.onClickOfPauseButton?()
+        if (pauseOrResumeButton.titleLabel?.text == DownloadStatus.pause.rawValue) {
+            title = DownloadStatus.resume.rawValue
+            self.onPauseButtonClick?()
         } else {
-            title = downloadStatusTitle.pause.rawValue
-            self.onClickOfResumeButton?()
+            title = DownloadStatus.pause.rawValue
+            self.onResumeButtonClick?()
         }
         pauseOrResumeButton.setTitle(title, for: .normal)
     }

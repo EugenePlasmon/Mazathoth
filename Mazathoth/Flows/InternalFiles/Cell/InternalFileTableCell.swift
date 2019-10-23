@@ -29,19 +29,19 @@ final class InternalFileTableCell: InternalFileCell {
     }
     
     private func addNameLabel() {
-        self.contentView.addSubview(self.name)
+        self.contentView.addSubview(self.nameLabel)
         NSLayoutConstraint.activate([
-            self.name.leftAnchor.constraint(equalTo: self.iconImageView.rightAnchor, constant: 2.0),
-            self.name.rightAnchor.constraint(lessThanOrEqualTo: self.contentView.rightAnchor, constant: -55.0),
-            self.name.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 20.0),
-            self.name.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -20.0)
+            self.nameLabel.leftAnchor.constraint(equalTo: self.iconImageView.rightAnchor, constant: 2.0),
+            self.nameLabel.rightAnchor.constraint(lessThanOrEqualTo: self.contentView.rightAnchor, constant: -55.0),
+            self.nameLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 20.0),
+            self.nameLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -20.0)
             ])
     }
     
     private func addCancelButton() {
         self.contentView.addSubview(self.cancelButton)
         NSLayoutConstraint.activate([
-            self.cancelButton.topAnchor.constraint(greaterThanOrEqualTo: self.name.bottomAnchor, constant: 1.0),
+            self.cancelButton.topAnchor.constraint(greaterThanOrEqualTo: self.nameLabel.bottomAnchor, constant: 1.0),
             self.cancelButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -2.0),
             self.cancelButton.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -20.0),
             ])

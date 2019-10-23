@@ -1,5 +1,5 @@
 //
-//  CreateFolderDialog.swift
+//  CreateFolderPopUp.swift
 //  Mazathoth
 //
 //  Created by Nadezhda on 23/04/2019.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class CreateFolderDialog: NSObject {
+final class CreateFolderPopUp: NSObject {
     
     typealias OnOkActionClosure = (_ name: String) -> Void
     private let onOkAction: OnOkActionClosure?
@@ -58,7 +58,7 @@ final class CreateFolderDialog: NSObject {
     }
 }
 
-extension CreateFolderDialog: UITextFieldDelegate {
+extension CreateFolderPopUp: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         var set = CharacterSet.alphanumerics

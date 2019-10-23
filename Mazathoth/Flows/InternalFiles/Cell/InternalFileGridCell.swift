@@ -29,13 +29,13 @@ final class InternalFileGridCell: InternalFileCell {
     }
     
     func addNameLabel() {
-        self.contentView.addSubview(self.name)
+        self.contentView.addSubview(self.nameLabel)
         NSLayoutConstraint.activate([
-            self.name.topAnchor.constraint(equalTo: self.iconImageView.bottomAnchor),
-            self.name.leftAnchor.constraint(greaterThanOrEqualTo: self.contentView.leftAnchor, constant: 8.0),
-            self.name.rightAnchor.constraint(lessThanOrEqualTo: self.contentView.rightAnchor, constant: -8.0),
-            self.name.heightAnchor.constraint(equalToConstant: 60),
-            self.name.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor)
+            self.nameLabel.topAnchor.constraint(equalTo: self.iconImageView.bottomAnchor),
+            self.nameLabel.leftAnchor.constraint(greaterThanOrEqualTo: self.contentView.leftAnchor, constant: 8.0),
+            self.nameLabel.rightAnchor.constraint(lessThanOrEqualTo: self.contentView.rightAnchor, constant: -8.0),
+            self.nameLabel.heightAnchor.constraint(equalToConstant: 60),
+            self.nameLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor)
             ])
     }
     

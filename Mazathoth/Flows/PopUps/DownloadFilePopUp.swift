@@ -1,5 +1,5 @@
 //
-//  DownloadFileDialog.swift
+//  DownloadFilePopUp.swift
 //  Mazathoth
 //
 //  Created by Nadezhda on 24/08/2019.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class DownloadFileDialog: NSObject {
+final class DownloadFilePopUp {
     
     typealias OnOkActionClosure = (_ url: String) -> Void
     private let onOkAction: OnOkActionClosure?

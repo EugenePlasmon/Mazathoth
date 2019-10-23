@@ -10,15 +10,14 @@ import UIKit
 
 final class InternalFilesViewController: UIViewController {
     
-    private let internalFilesManager: InternalFilesManagerInterface
-    lazy var collectionViewController = InternalFilesCollectionViewController(internalFilesManager: internalFilesManager)
-    private var fileDownloader: FileDownloader?
-    private var createFolderDialog: CreateFolderDialog?
-    private var downloadFileDialog: DownloadFileDialog?
+    private let internalFileManager: InternalFileManagerInterface
+    lazy var collectionViewController = InternalFilesCollectionViewController(internalFileManager: internalFileManager)
+    private var downloadManager: DownloadManager?
+    private var createFolderPopUp: CreateFolderPopUp?
+    private var downloadFilePopUp: DownloadFilePopUp?
     private var internalFiles: [FileSystemEntity] = [] {
         didSet { internalFiles.sort{$0.name < $1.name} }
     }
-    
     var documentsDirectoryPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .allDomainsMask, true).first
     var style: Style = .table {
         didSet {
@@ -41,8 +40,8 @@ final class InternalFilesViewController: UIViewController {
     
     // MARK: - Init
     
-    init(internalFilesManager: InternalFilesManagerInterface) {
-        self.internalFilesManager = internalFilesManager
+    init(internalFileManager: InternalFileManagerInterface) {
+        self.internalFileManager = internalFileManager
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -56,18 +55,18 @@ final class InternalFilesViewController: UIViewController {
         super.viewDidLoad()
         self.configureUI()
         self.loadDataFromDocumentDirectory()
-        self.onClickButtonInCell()
+        self.configureButtonClickHandlersInCell()
     }
     
     // MARK: - Fetch InternalFiles from Document and Download Directories
     
-    func loadDataFromDocumentDirectory() {
-        self.internalFiles = (try? self.internalFilesManager.fetchFiles()) ?? []
-        self.internalFiles += fileDownloader?.getFiles() ?? []
+    private func loadDataFromDocumentDirectory() {
+        self.internalFiles = (try? self.internalFileManager.fetchFiles()) ?? []
+        self.internalFiles += self.downloadManager?.activeDownloads ?? []
         self.collectionViewController.internalFiles = self.internalFiles
         self.collectionViewController.collectionView.reloadData()
     }
-    
+
     // MARK: - UI
     
     private func configureUI() {
@@ -134,70 +133,60 @@ final class InternalFilesViewController: UIViewController {
         let allCases = Style.allCases
         guard let index = allCases.firstIndex(of: style) else { return }
         let nextIndex = (index + 1) % allCases.count
-        style = allCases[nextIndex]
+        self.style = allCases[nextIndex]
     }
     
     // MARK: - Alert
     
     @objc private func createFolder() {
-        self.createFolderDialog = CreateFolderDialog { [weak self] name in
+        self.createFolderPopUp = CreateFolderPopUp { [weak self] name in
             guard let self = self else { return }
-            let name = self.collectionViewController.checkName(name)
-            self.internalFilesManager.addFolderToFolder(withName: name)
+            let fileNames = self.internalFiles.map { $0.name }
+            let name = name.unifyName(withAlreadyExistingNames: fileNames)
+            self.internalFileManager.addFolder(withName: name)
             self.loadDataFromDocumentDirectory()
-            self.createFolderDialog = nil
+            self.createFolderPopUp = nil
         }
-        self.createFolderDialog?.show(from: self)
+        self.createFolderPopUp?.show(from: self)
     }
-
+    
     @objc private func downloadFile() {
-        self.downloadFileDialog = DownloadFileDialog { [weak self] url in
-            guard let self = self else { return }
-            var fileName: String?
-            self.fileDownloader = FileDownloader()
-            guard let url = (URL(string: url)) else { return }
-            self.fileDownloader?.getFileInfo(from: url) { name in
+        self.downloadFilePopUp = DownloadFilePopUp { [weak self] url in
+            guard let self = self, let documentsDirectoryPath = self.documentsDirectoryPath else {
+                return
+            }
+            self.downloadManager = DownloadManager(documentsDirectoryPath: documentsDirectoryPath)
+            self.downloadManager?.onGetFileInfo = {
                 self.loadDataFromDocumentDirectory()
-                fileName = name
             }
-            self.fileDownloader?.downloadFile(from: url) { [weak self] srcPath in
-                guard let self = self, let srcPath = srcPath, let documentsDirectoryPath = self.documentsDirectoryPath else {
-                    return
-                }
-                var dstPath = documentsDirectoryPath.appendingPathComponent(fileName ?? url.lastPathComponent)
-                if FileManager.default.fileExists(atPath: dstPath) {
-                    dstPath = documentsDirectoryPath.appendingPathComponent(self.collectionViewController.checkName(fileName ?? url.lastPathComponent))
-                }
-                self.internalFilesManager.moveInternalFile(atPath: srcPath, toPath: dstPath)
-                DispatchQueue.main.async { self.loadDataFromDocumentDirectory() }
+            self.downloadManager?.onDownloadFile = { srcPath, dstPath in
+                self.internalFileManager.moveInternalFile(atPath: srcPath, toPath: dstPath)
+                self.loadDataFromDocumentDirectory()
             }
-            self.downloadFileDialog = nil
+            self.downloadManager?.downloadFile(from: url)
+            self.downloadFilePopUp = nil
         }
-        downloadFileDialog?.show(from: self)
+        downloadFilePopUp?.show(from: self)
     }
     
     // MARK: - Touch Handlers
     
-    private func onClickButtonInCell() {
-        self.collectionViewController.onClickOfCancelButton = { [weak self] url in
-            self?.fileDownloader?.cancelDownload(from: url)
+    private func configureButtonClickHandlersInCell() {
+        self.collectionViewController.onCancelButtonClick = { [weak self] url in
+            self?.downloadManager?.cancelDownload(from: url)
             DispatchQueue.main.async { self?.loadDataFromDocumentDirectory() }
         }
-        self.collectionViewController.onClickOfPauseButton = { [weak self] url in
-            self?.fileDownloader?.pauseDownload(from: url)
+        self.collectionViewController.onPauseButtonClick = { [weak self] url in
+            self?.downloadManager?.pauseDownload(from: url)
             DispatchQueue.main.async { self?.loadDataFromDocumentDirectory() }
         }
-        self.collectionViewController.onClickOfResumeButton = { [weak self] url, name in
+        self.collectionViewController.onResumeButtonClick = { [weak self] url, name in
             guard let self = self else { return }
-            self.fileDownloader?.resumeDownload(from: url) { srcPath in
-                guard let srcPath = srcPath, let documentsDirectoryPath = self.documentsDirectoryPath else { return }
-                var dstPath = documentsDirectoryPath.appendingPathComponent(name)
-                if FileManager.default.fileExists(atPath: dstPath) {
-                    dstPath = documentsDirectoryPath.appendingPathComponent(self.collectionViewController.checkName(name))
-                }
-                self.internalFilesManager.moveInternalFile(atPath: srcPath, toPath: dstPath)
-                DispatchQueue.main.async { self.loadDataFromDocumentDirectory() }
+            self.downloadManager?.onDownloadFile = { srcPath, dstPath in
+                self.internalFileManager.moveInternalFile(atPath: srcPath, toPath: dstPath)
+                self.loadDataFromDocumentDirectory()
             }
+            self.downloadManager?.resumeDownload(from: url, name: name)
         }
     }
 }

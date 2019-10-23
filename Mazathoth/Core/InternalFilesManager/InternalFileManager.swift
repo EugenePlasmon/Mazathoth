@@ -1,5 +1,5 @@
 //
-//  InternalFilesManager.swift
+//  InternalFileManager.swift
 //  Mazathoth
 //
 //  Created by Nadezhda on 14/04/2019.
@@ -8,23 +8,24 @@
 
 import UIKit
 
-final class InternalFilesManager: InternalFilesManagerInterface {
+final class InternalFileManager: InternalFileManagerInterface {
     
     private var documentsDirectoryPath: String? {
         return NSSearchPathForDirectoriesInDomains(.documentDirectory, .allDomainsMask, true).first
     }
-    private let path: String?
+    private var path: String?
     
     // MARK: - Init
     
-    init(path: String? = nil) {
+    init(path: String?) {
+        guard let path = path ?? self.documentsDirectoryPath else { return }
         self.path = path
     }
     
     // MARK: - Fetch Files from directory
     
     func fetchFiles() throws -> [FileSystemEntity] {
-        guard let directoryPath = self.path ?? self.documentsDirectoryPath else {
+        guard let directoryPath = self.path else {
             return []
         }
         let files = try FileManager.default.contentsOfDirectory(atPath: directoryPath)
@@ -47,8 +48,8 @@ final class InternalFilesManager: InternalFilesManagerInterface {
     
     // MARK: - Add folder to folder
     
-    func addFolderToFolder(withName name: String) {
-        guard let directoryPath = self.path ?? self.documentsDirectoryPath else {
+    func addFolder(withName name: String) {
+        guard let directoryPath = self.path else {
             return
         }
         let absolutePath = directoryPath.appendingPathComponent(name)

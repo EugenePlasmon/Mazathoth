@@ -10,13 +10,13 @@ import UIKit
 
 protocol InternalFileCellInterface: UICollectionViewCell {
     
-    var name: UILabel { get }
+    var nameLabel: UILabel { get }
     var iconImageView: UIImageView { get }
     
-    var onClickOfDelButton: (() -> Void)? { get set }
-    var onClickOfCancelButton: (() -> Void)? { get set }
-    var onClickOfPauseButton: (() -> Void)? { get set }
-    var onClickOfResumeButton: (() -> Void)? { get set }
+    var onDeleteButtonClick: (() -> Void)? { get set }
+    var onCancelButtonClick: (() -> Void)? { get set }
+    var onPauseButtonClick: (() -> Void)? { get set }
+    var onResumeButtonClick: (() -> Void)? { get set }
     
     func setEmptyDirectoryCell()
     func configure(isDownloading: Bool, isActive: Bool)
