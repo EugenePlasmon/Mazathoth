@@ -10,7 +10,11 @@ import UIKit
 
 final class InternalFilesCollectionViewController: UICollectionViewController {
     
-    var internalFiles: [FileSystemEntity] = []
+    var internalFiles: [FileSystemEntity] = [] {
+        didSet {
+            self.onChangingInternalFilesCount?()
+        }
+    }
     var style: InternalFilesViewController.Style = .table {
         didSet { self.updatePresentationStyle() }
     }
@@ -19,10 +23,18 @@ final class InternalFilesCollectionViewController: UICollectionViewController {
     private var delegate: CustomFlowLayoutDelegate?
     private var isEditingMode: Bool = false
     
+    var lastScrollOffset: CGFloat = 0
+    var lastScrollViewHeight: CGFloat = 0
+    
     var onLongPressOnCell: (() -> Void)?
     var onCancelButtonClick: ((URL) -> Void)?
     var onPauseButtonClick: ((URL) -> Void)?
     var onResumeButtonClick: ((URL, String) -> Void)?
+    
+    var onStartScrolling: ((_ isDown: Bool, _ isUp: Bool, _ contentOffsetDiff: CGFloat) -> Void)?
+    var onStopScrolling: (() -> Void)?
+    
+    var onChangingInternalFilesCount: (() -> Void)?
     
     // MARK: - Init
     
@@ -53,6 +65,7 @@ final class InternalFilesCollectionViewController: UICollectionViewController {
     
     private func configureUI() {
         self.collectionView.backgroundColor = .white
+        self.collectionView.alwaysBounceVertical = true
         self.updatePresentationStyle()
     }
     
@@ -61,9 +74,13 @@ final class InternalFilesCollectionViewController: UICollectionViewController {
         case .table:
             delegate = TableLayoutDelegate()
             self.selectItem()
+            self.startScrolling()
+            self.stopScrolling()
         case .grid:
             delegate = GridLayoutDelegate()
             self.selectItem()
+            self.startScrolling()
+            self.stopScrolling()
         }
         self.collectionView.delegate = delegate
         self.collectionView.reloadData()
@@ -71,7 +88,7 @@ final class InternalFilesCollectionViewController: UICollectionViewController {
     
     // MARK: - Delegate
     
-    func selectItem() {
+    private func selectItem() {
         guard let delegate = self.delegate else { return }
         delegate.onSelectItem = { indexPath in
             guard !self.internalFiles.isEmpty ,!self.internalFiles[indexPath.row].isDownloading else { return }
@@ -79,7 +96,23 @@ final class InternalFilesCollectionViewController: UICollectionViewController {
         }
     }
     
-    func selectItem(indexPath: IndexPath) {
+    private func startScrolling() {
+        guard let delegate = self.delegate else { return }
+        delegate.onStartScrolling = { scrollView in
+            self.startScrolling(scrollView)
+        }
+    }
+    
+    private func stopScrolling() {
+        guard let delegate = self.delegate else { return }
+        delegate.onStopScrolling = {
+            self.onStopScrolling?()
+        }
+    }
+    
+    // MARK: - Router
+    
+    private func selectItem(indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         guard let selectedFile = self.internalFiles[safe: indexPath.row] else {
             return
@@ -94,6 +127,7 @@ final class InternalFilesCollectionViewController: UICollectionViewController {
         let internalFilesModuleBuilder = InternalFilesModuleBuilder()
         let internalFilesViewController = internalFilesModuleBuilder.build(path: selectedFile.absolutePath)
         internalFilesViewController.documentsDirectoryPath = selectedFile.absolutePath
+        internalFilesViewController.navigationTitle = selectedFile.name
         internalFilesViewController.style = self.style
         self.navigationController?.pushViewController(internalFilesViewController, animated: true)
     }
@@ -242,5 +276,24 @@ extension InternalFilesCollectionViewController: UIGestureRecognizerDelegate {
         let dstPath = self.internalFiles[indexPath.row].absolutePath.appendingPathComponent(srcName)
         self.internalFileManager.moveInternalFile(atPath: srcPath, toPath: dstPath)
         self.internalFiles.remove(at: initialIndexPath.row)
+    }
+}
+
+//MARK: - Scrolling
+
+extension InternalFilesCollectionViewController {
+    
+    private func startScrolling(_ scrollView: UIScrollView) {
+        let contentOffset = scrollView.contentOffset.y
+        defer {
+            self.lastScrollViewHeight = scrollView.contentSize.height
+            self.lastScrollOffset = contentOffset
+        }
+        let contentOffsetDiff = contentOffset - self.lastScrollOffset
+        let contentHeightDiff = scrollView.contentSize.height - self.lastScrollViewHeight
+        guard contentHeightDiff == 0 else { return }
+        let isScrollingDown: Bool = contentOffsetDiff > 0 && contentOffset > 0
+        let isScrollingUp: Bool = contentOffsetDiff < 0 && contentOffset < 0
+        self.onStartScrolling?(isScrollingDown, isScrollingUp, contentOffsetDiff)
     }
 }

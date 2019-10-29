@@ -1,5 +1,5 @@
 //
-//  String + Extensions.swift
+//  String+Extensions.swift
 //  Mazathoth
 //
 //  Created by Nadezhda on 17/07/2019.

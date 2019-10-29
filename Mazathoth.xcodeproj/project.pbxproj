@@ -10,12 +10,14 @@
 		9407D6492360A56100C330FC /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9407D6482360A56100C330FC /* UIView+Extensions.swift */; };
 		9407D64B2360C65600C330FC /* InternalFilesCollectionGesturesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9407D64A2360C65600C330FC /* InternalFilesCollectionGesturesManager.swift */; };
 		9407D64F2362002A00C330FC /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9407D64E2362002A00C330FC /* DownloadManager.swift */; };
+		9407D67523686FB600C330FC /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9407D67423686FB600C330FC /* HeaderView.swift */; };
 		940C069522DF7D33007BBC27 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940C069422DF7D32007BBC27 /* String+Extensions.swift */; };
 		9410EC7122D6351600146F89 /* InternalFilesModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9410EC7022D6351600146F89 /* InternalFilesModuleBuilder.swift */; };
 		942093C622B8EDCE007057FF /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942093C522B8EDCE007057FF /* Folder.swift */; };
 		942093C822B8EE35007057FF /* FileSystemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942093C722B8EE35007057FF /* FileSystemEntity.swift */; };
 		942093CA22B93834007057FF /* InternalFileCellInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942093C922B93834007057FF /* InternalFileCellInterface.swift */; };
 		94226D772315357400725DA0 /* FileDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94226D762315357400725DA0 /* FileDownloader.swift */; };
+		94494EB7237EF8C900491DA4 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94494EB6237EF8C900491DA4 /* Int+Extensions.swift */; };
 		94516A2A22FC061100328BD7 /* InternalFileTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94516A2922FC061100328BD7 /* InternalFileTableCell.swift */; };
 		94516A2C22FC47B800328BD7 /* TableLayoutDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94516A2B22FC47B800328BD7 /* TableLayoutDelegate.swift */; };
 		94516A2E22FC486500328BD7 /* GridLayoutDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94516A2D22FC486500328BD7 /* GridLayoutDelegate.swift */; };
@@ -49,12 +51,14 @@
 		9407D6482360A56100C330FC /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		9407D64A2360C65600C330FC /* InternalFilesCollectionGesturesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalFilesCollectionGesturesManager.swift; sourceTree = "<group>"; };
 		9407D64E2362002A00C330FC /* DownloadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
+		9407D67423686FB600C330FC /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		940C069422DF7D32007BBC27 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		9410EC7022D6351600146F89 /* InternalFilesModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalFilesModuleBuilder.swift; sourceTree = "<group>"; };
 		942093C522B8EDCE007057FF /* Folder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
 		942093C722B8EE35007057FF /* FileSystemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemEntity.swift; sourceTree = "<group>"; };
 		942093C922B93834007057FF /* InternalFileCellInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalFileCellInterface.swift; sourceTree = "<group>"; };
 		94226D762315357400725DA0 /* FileDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDownloader.swift; sourceTree = "<group>"; };
+		94494EB6237EF8C900491DA4 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		94516A2922FC061100328BD7 /* InternalFileTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalFileTableCell.swift; sourceTree = "<group>"; };
 		94516A2B22FC47B800328BD7 /* TableLayoutDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableLayoutDelegate.swift; sourceTree = "<group>"; };
 		94516A2D22FC486500328BD7 /* GridLayoutDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridLayoutDelegate.swift; sourceTree = "<group>"; };
@@ -169,6 +173,7 @@
 				F82844892260FAE20089EEBD /* UIColor+Extensions.swift */,
 				940C069422DF7D32007BBC27 /* String+Extensions.swift */,
 				9407D6482360A56100C330FC /* UIView+Extensions.swift */,
+				94494EB6237EF8C900491DA4 /* Int+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -239,6 +244,7 @@
 				94DC404C234750F000255411 /* InternalFilesCollectionViewController.swift */,
 				9407D64A2360C65600C330FC /* InternalFilesCollectionGesturesManager.swift */,
 				9407D64E2362002A00C330FC /* DownloadManager.swift */,
+				9407D67423686FB600C330FC /* HeaderView.swift */,
 			);
 			path = InternalFiles;
 			sourceTree = "<group>";
@@ -371,6 +377,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9407D67523686FB600C330FC /* HeaderView.swift in Sources */,
 				94DBEE5322610F050084CDC6 /* File.swift in Sources */,
 				F8C72ABC2268846D00B0AB0D /* AudioPlayer.swift in Sources */,
 				94A5522323114AB6002423D4 /* Task.swift in Sources */,
@@ -391,6 +398,7 @@
 				F84884562267C1B30047294F /* InternalFileManagerInterface.swift in Sources */,
 				9407D64B2360C65600C330FC /* InternalFilesCollectionGesturesManager.swift in Sources */,
 				94A7541F2309C3B1007F3DB6 /* InternalFileGridCell.swift in Sources */,
+				94494EB7237EF8C900491DA4 /* Int+Extensions.swift in Sources */,
 				940C069522DF7D33007BBC27 /* String+Extensions.swift in Sources */,
 				F82844832260F9030089EEBD /* Array+Extensions.swift in Sources */,
 				9407D64F2362002A00C330FC /* DownloadManager.swift in Sources */,

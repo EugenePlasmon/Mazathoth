@@ -10,5 +10,7 @@ import UIKit
 
 protocol CustomFlowLayoutDelegate: class, UICollectionViewDelegateFlowLayout {
     var onSelectItem: ((_ indexPath: IndexPath) -> Void)? { get set }
+    var onStartScrolling: ((_ scrollView: UIScrollView) -> Void)? { get set }
+    var onStopScrolling: (() -> Void)? { get set }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
 }

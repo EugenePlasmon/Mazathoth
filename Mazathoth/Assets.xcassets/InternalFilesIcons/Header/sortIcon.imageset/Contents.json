@@ -2,15 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "loadIcon.png",
+      "filename" : "sortIcon-30.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "sortIcon-60.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "sortIcon-90.png",
       "scale" : "3x"
     }
   ],

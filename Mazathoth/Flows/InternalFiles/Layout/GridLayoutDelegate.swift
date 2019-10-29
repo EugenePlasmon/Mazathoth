@@ -9,8 +9,10 @@
 import UIKit
 
 final class GridLayoutDelegate: NSObject, CustomFlowLayoutDelegate {
-    
+
     var onSelectItem: ((_ indexPath: IndexPath) -> Void)?
+    var onStartScrolling: ((_ scrollView: UIScrollView) -> Void)?
+    var onStopScrolling: (() -> Void)?
     private let sectionInsets = UIEdgeInsets(top: 2.0, left: 2.0, bottom: 2.0, right: 2.0)
     private let amountOfItems: CGFloat = 3
     private let itemSpacing: CGFloat = 2
@@ -36,5 +38,21 @@ final class GridLayoutDelegate: NSObject, CustomFlowLayoutDelegate {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return itemSpacing
+    }
+    
+    // MARK: - Scrolling
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        self.onStartScrolling?(scrollView)
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        self.onStopScrolling?()
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if !decelerate {
+            self.onStopScrolling?()
+        }
     }
 }

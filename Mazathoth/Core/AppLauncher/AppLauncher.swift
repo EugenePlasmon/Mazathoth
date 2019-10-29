@@ -19,7 +19,15 @@ final class AppLauncher {
     func start() {
         let filesVC = InternalFilesModuleBuilder().build(path: nil)
         let navVC = UINavigationController(rootViewController: filesVC)
+        self.setNavigationBar(for: navVC)
         self.window?.rootViewController = navVC
         self.window?.makeKeyAndVisible()
+    }
+    
+    private func setNavigationBar(for navVC: UINavigationController) {
+        
+        navVC.navigationBar.barTintColor = .white
+        navVC.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navVC.navigationBar.shadowImage = UIImage()
     }
 }
