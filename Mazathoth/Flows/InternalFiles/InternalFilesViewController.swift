@@ -46,10 +46,10 @@ final class InternalFilesViewController: UIViewController {
         case table
         case grid
         
-        var styleIcon: UIImage {
+        var styleIcon: UIImage? {
             switch self {
-            case .table: return #imageLiteral(resourceName: "gridStyleIcon")
-            case .grid: return #imageLiteral(resourceName: "tableStyleIcon")
+            case .table: return UIImage(named: "gridStyleIcon")?.withRenderingMode(.alwaysTemplate)
+            case .grid: return UIImage(named: "tableStyleIcon")?.withRenderingMode(.alwaysTemplate)
             }
         }
     }
@@ -73,10 +73,8 @@ final class InternalFilesViewController: UIViewController {
         self.configureUI()
         self.configureButtonClickHandlersInCell()
         self.configureButtonClickHandlersInHeaderView()
-        self.collectionViewController.onChangingInternalFilesCount = {
-            self.filteredInternalFiles = self.collectionViewController.internalFiles
-            self.loadDataFromDocumentDirectory()
-        }
+        self.configureButtonClickHandlersInCollectionView()
+        self.configureStateHandlersInCollectionView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -143,35 +141,50 @@ final class InternalFilesViewController: UIViewController {
     private func setNavigationBar() {
         self.navigationController?.navigationBar.setBackgroundImage(UIImageView().image, for: .default)
         self.setBackBarButtonItem()
-        self.addRightNavigationItem()
-        self.addLeftNavigationItem()
+        self.addLoadAddRightNavigationItem()
         self.addNavigationTitle()
-        
     }
     
-    private func addRightNavigationItem() {
-        self.navigationItem.rightBarButtonItems = []
-        let loadButton : UIButton = UIButton(type: .custom)
-        loadButton.setImage(#imageLiteral(resourceName: "loadIcon"), for: .normal)
+    private func addLoadAddRightNavigationItem() {
+        self.clearRightItems()
+        let loadButton: UIButton = UIButton(type: .custom)
+        let loadButtonImage = UIImage(named: "loadIcon")?.withRenderingMode(.alwaysTemplate)
+        loadButton.setImage(loadButtonImage, for: .normal)
+        loadButton.tintColor = .brandBlue
         loadButton.addTarget(self, action: #selector(self.downloadFile), for: .touchUpInside)
-        let fileLoader = UIBarButtonItem(customView: loadButton)
         let addButton : UIButton = UIButton(type: .custom)
-        addButton.setImage(#imageLiteral(resourceName: "addIcon"), for: .normal)
+        let addButtonImage = UIImage(named: "addIcon")?.withRenderingMode(.alwaysTemplate)
+        addButton.setImage(addButtonImage, for: .normal)
+        addButton.tintColor = .brandBlue
         addButton.addTarget(self, action: #selector(self.createFolder), for: .touchUpInside)
-        let createrFolder = UIBarButtonItem(customView: addButton)
+        let loadNavigationItem = UIBarButtonItem(customView: loadButton)
+        let addNavigationItem = UIBarButtonItem(customView: addButton)
         let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         fixedSpace.width = 5.0
-        self.navigationItem.rightBarButtonItems?.append(fileLoader)
+        self.navigationItem.rightBarButtonItems?.append(loadNavigationItem)
         self.navigationItem.rightBarButtonItems?.append(fixedSpace)
-        self.navigationItem.rightBarButtonItems?.append(createrFolder)
+        self.navigationItem.rightBarButtonItems?.append(addNavigationItem)
     }
     
-    private func addLeftNavigationItem() {
-        self.collectionViewController.onLongPressOnCell = {
-            self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.handleEndEditing))
-            self.navigationItem.leftBarButtonItem?.tintColor = .black
-            self.hideRightItems()
-        }
+    private func addDeleteRightNavigationItem() {
+        self.clearRightItems()
+        let deleteButton: UIButton = UIButton(type: .custom)
+        let deleteButtonImage = UIImage(named: "deleteIcon")?.withRenderingMode(.alwaysTemplate)
+        deleteButton.setImage(deleteButtonImage, for: .normal)
+        deleteButton.tintColor = .brandBlue
+        deleteButton.addTarget(self, action: #selector(self.deleteInternalFile), for: .touchUpInside)
+        let deleteNavigationItem = UIBarButtonItem(customView: deleteButton)
+        self.navigationItem.rightBarButtonItems?.append(deleteNavigationItem)
+    }
+    
+    @objc private func deleteInternalFile() {
+        self.collectionViewController.deleteInternalFile()
+    }
+    
+    private func addDoneLeftNavigationItem() {
+        let doneNavigationItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.handleEndEditing))
+        doneNavigationItem.tintColor = .brandBlue
+        self.navigationItem.leftBarButtonItem = doneNavigationItem
     }
     
     private func addNavigationTitle() {
@@ -198,23 +211,35 @@ final class InternalFilesViewController: UIViewController {
     }
     
     private func showRightItems() {
-        guard let items = self.navigationItem.rightBarButtonItems else { return }
-        for item in items {
-            item.isEnabled = true
-        }
+        self.tuneRightItems(isHidden: false, isEnabled: true)
     }
     
     private func hideRightItems() {
+        self.tuneRightItems(isHidden: true, isEnabled: false)
+    }
+    
+    func tuneRightItems(isHidden: Bool = false, isEnabled: Bool = true) {
         guard let items = self.navigationItem.rightBarButtonItems else { return }
         for item in items {
-            item.isEnabled = false
+            item.isEnabled = isEnabled
+            item.customView?.isHidden = isHidden
         }
+    }
+    
+    private func clearRightItems() {
+        guard self.navigationItem.rightBarButtonItems != [] else { return }
+        self.navigationItem.rightBarButtonItems = []
+    }
+
+    private func clearLeftItems() {
+        guard self.navigationItem.leftBarButtonItems != [] else { return }
+        self.navigationItem.leftBarButtonItems = []
     }
     
     @objc private func handleEndEditing() {
         self.collectionViewController.handleEndEditing()
-        self.navigationItem.leftBarButtonItem = nil
-        self.showRightItems()
+        self.clearLeftItems()
+        self.addLoadAddRightNavigationItem()
     }
     
     private func setNavigationTitle() {
@@ -257,6 +282,27 @@ final class InternalFilesViewController: UIViewController {
         downloadFilePopUp?.show(from: self)
     }
     
+    // MARK: -  State Handlers In Collection View
+    
+    private func configureStateHandlersInCollectionView() {
+        self.collectionViewController.onChangingInternalFilesCount = {
+            self.filteredInternalFiles = self.collectionViewController.internalFiles
+            self.loadDataFromDocumentDirectory()
+        }
+        self.collectionViewController.onChangingSelectedCellsIndexPaths = { [weak self] isEnabled in
+            self?.tuneRightItems(isEnabled: isEnabled)
+        }
+    }
+    
+    // MARK: - Touch Handlers In Collection View
+    
+    private func configureButtonClickHandlersInCollectionView() {
+        self.collectionViewController.onLongPressOnCell = {
+            self.addDoneLeftNavigationItem()
+            self.addDeleteRightNavigationItem()
+        }
+    }
+    
     // MARK: - Touch Handlers In Cell
     
     private func configureButtonClickHandlersInCell() {
@@ -294,15 +340,21 @@ final class InternalFilesViewController: UIViewController {
         }
         self.headerView.onSearchBarTextChange = { [weak self] query in
             guard let self = self else { return }
-            self.hideRightItems()
             self.filterAndReloadInternalFiles(query: query)
+            if !self.collectionViewController.isEditingMode {
+                self.hideRightItems()
+            }
         }
         self.headerView.onSearchBarCancelButtonClick = { [weak self] in
             guard let self = self else { return }
-            self.showRightItems()
             self.filterAndReloadInternalFiles(query: "")
+            if !self.collectionViewController.isEditingMode {
+                self.showRightItems()
+            }
         }
     }
+    
+    // MARK: -
     
     private func changeContentLayout() {
         let allCases = Style.allCases

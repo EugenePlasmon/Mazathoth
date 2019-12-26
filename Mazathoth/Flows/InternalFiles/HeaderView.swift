@@ -46,14 +46,18 @@ class HeaderView: UIView {
     let changerContentLayoutButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "gridStyleIcon"), for: .normal)
+        let image = UIImage(named: "gridStyleIcon")?.withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.tintColor = .brandBlue
         return button
     }()
     
     let sortButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "sortIcon"), for: .normal)
+        let image = UIImage(named: "sortIcon")?.withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.tintColor = .brandBlue
         return button
     }()
     

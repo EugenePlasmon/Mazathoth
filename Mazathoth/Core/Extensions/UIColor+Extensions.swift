@@ -10,6 +10,11 @@ import UIKit
 
 public extension UIColor {
     
+    // MARK: - Brand Colors
+    
+    static let brandLightBlue = UIColor(red: 41.0 / 255.0, green: 120.0 / 255.0, blue: 240.0 / 255.0, alpha: 1.0)
+    static let brandBlue = UIColor(red: 41.0 / 255.0, green: 74.0 / 255.0, blue: 240.0 / 255.0, alpha: 1.0)
+
     /// Создает объект UIColor с цветом закодированным в hex строке
     ///
     /// - Parameter hexString: строка с цветом в hex формате (#EC174F)

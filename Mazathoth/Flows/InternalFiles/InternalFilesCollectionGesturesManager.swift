@@ -51,6 +51,7 @@ final class InternalFilesCollectionGesturesManager {
         case .began:
             guard !self.internalFiles.isEmpty else { return }
             self.onBeginGesture?()
+            self.configureSelectedCell(indexPathStart, isLongPress: true)
             self.addCellSnapshot(indexPathStart)
         case .changed:
             self.moveCellSnapshot()
@@ -60,6 +61,7 @@ final class InternalFilesCollectionGesturesManager {
             }
             self.changeCellColor(indexPath, for: collectionView)
         case .ended:
+            self.configureSelectedCell(self.cellDetail?.initialIndexPath, isLongPress: false)
             self.moveInternalFile(indexPath, for: collectionView)
         case .cancelled:
             self.cancelCellAction(indexPath, for: collectionView)
@@ -165,6 +167,14 @@ final class InternalFilesCollectionGesturesManager {
         cell.isHidden = false
         self.setDefaultCellColor(for: collectionView)
         self.removeSnapshot()
+    }
+    
+    private func configureSelectedCell(_ indexPath: IndexPath?, isLongPress: Bool) {
+        guard let indexPath = indexPath,
+            let cell = collectionView.cellForItem(at: indexPath) as? InternalFileCellInterface else {
+                return
+        }
+        cell.configure(isLongPress: isLongPress)
     }
 }
 

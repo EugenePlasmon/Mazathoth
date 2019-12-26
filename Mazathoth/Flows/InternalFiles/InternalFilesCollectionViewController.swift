@@ -11,17 +11,25 @@ import UIKit
 final class InternalFilesCollectionViewController: UICollectionViewController {
     
     var internalFiles: [FileSystemEntity] = [] {
-        didSet {
-            self.onChangingInternalFilesCount?()
-        }
+        didSet { self.onChangingInternalFilesCount?() }
     }
+    // TODO: - При переключении style в режиме редактирования сохранять selected сells
     var style: InternalFilesViewController.Style = .table {
-        didSet { self.updatePresentationStyle() }
+        didSet {
+            self.updatePresentationStyle()
+            self.selectedCellsIndexPaths = []
+        }
     }
     private let internalFileManager: InternalFileManagerInterface
     private var internalFilesCollectionGesturesManager: InternalFilesCollectionGesturesManager?
     private var delegate: CustomFlowLayoutDelegate?
-    private var isEditingMode: Bool = false
+    private(set) var isEditingMode: Bool = false
+    var selectedCellsIndexPaths: [IndexPath] = [] {
+        didSet {
+            self.selectedCellsIndexPaths.sort{$0.row > $1.row}
+            self.changeSelectedCellsIndexPaths()
+        }
+    }
     
     var lastScrollOffset: CGFloat = 0
     var lastScrollViewHeight: CGFloat = 0
@@ -35,6 +43,7 @@ final class InternalFilesCollectionViewController: UICollectionViewController {
     var onStopScrolling: (() -> Void)?
     
     var onChangingInternalFilesCount: (() -> Void)?
+    var onChangingSelectedCellsIndexPaths: ((_ isSelected: Bool) -> Void)?
     
     // MARK: - Init
     
@@ -91,7 +100,7 @@ final class InternalFilesCollectionViewController: UICollectionViewController {
     private func selectItem() {
         guard let delegate = self.delegate else { return }
         delegate.onSelectItem = { indexPath in
-            guard !self.internalFiles.isEmpty ,!self.internalFiles[indexPath.row].isDownloading else { return }
+            guard !self.internalFiles.isEmpty ,!self.internalFiles[indexPath.row].isDownloading, !self.isEditingMode else { return }
             self.selectItem(indexPath: indexPath)
         }
     }
@@ -160,7 +169,8 @@ final class InternalFilesCollectionViewController: UICollectionViewController {
         cell.configure(isEditing: isEditingMode)
         cell.configure(isDownloading: self.internalFiles[indexPath.row].isDownloading, isActive: self.internalFiles[indexPath.row].isDownloadActive)
         self.configureButtonClickHandlers(for: cell, at: indexPath)
-        guard (self.internalFiles[indexPath.row] as? Folder) != nil else {
+        // TODO: - реализовать icon по типу файла
+        guard !self.internalFiles.isEmpty else {
             cell.iconImageView.image = nil
             cell.iconImageView.isHidden = true
             return cell
@@ -174,8 +184,13 @@ final class InternalFilesCollectionViewController: UICollectionViewController {
     
     private func configureButtonClickHandlers(for cell: InternalFileCellInterface, at indexPath: IndexPath) {
         let download = self.internalFiles[indexPath.row].downloadEntity
-        cell.onDeleteButtonClick = { [weak self] in
-            self?.deleteButtonClick(cell)
+        cell.onSelectionButtonClick = { [weak self] isSelected in
+            guard let self = self else { return }
+            if isSelected {
+                self.selectedCellsIndexPaths.append(indexPath)
+            } else if self.selectedCellsIndexPaths.contains(indexPath) {
+                self.selectedCellsIndexPaths.removeAll(where:{ indexPath == $0 })
+            }
         }
         cell.onCancelButtonClick = { [weak self] in
             guard let self = self, let download = download else { return }
@@ -192,19 +207,16 @@ final class InternalFilesCollectionViewController: UICollectionViewController {
         }
     }
     
-    // MARK: - Delete Item
+    // MARK: - Delete Items
     
-    private func deleteButtonClick(_ cell: UICollectionViewCell) {
-        guard let indexPath = collectionView.indexPath(for: cell) else {
-            return
+    func deleteInternalFile() {
+        guard !self.selectedCellsIndexPaths.isEmpty else { return }
+        for indexPath in selectedCellsIndexPaths {
+            guard !self.internalFiles.isEmpty else { return }
+            self.removeInternalFile(forItemAt: indexPath)
         }
-        guard !self.internalFiles.isEmpty else { return }
-        self.removeInternalFile(forItemAt: indexPath)
-        if self.internalFiles.count == 0 {
-            collectionView.reloadData()
-        } else {
-            collectionView.deleteItems(at: [indexPath])
-        }
+        self.collectionView.reloadData()
+        self.selectedCellsIndexPaths = []
     }
     
     private func removeInternalFile(forItemAt indexPath: IndexPath) {
@@ -223,7 +235,12 @@ final class InternalFilesCollectionViewController: UICollectionViewController {
             self.isEditingMode = true
             cell.configure(isEditing: isEditingMode)
             self.onLongPressOnCell?()
-            delegate?.onSelectItem = nil
+        }
+    }
+    
+    private func changeSelectedCellsIndexPaths() {
+        if isEditingMode {
+            self.onChangingSelectedCellsIndexPaths?(!self.selectedCellsIndexPaths.isEmpty)
         }
     }
     
@@ -258,7 +275,9 @@ extension InternalFilesCollectionViewController: UIGestureRecognizerDelegate {
         if self.internalFilesCollectionGesturesManager == nil {
             self.internalFilesCollectionGesturesManager = InternalFilesCollectionGesturesManager(longPress, for: self.collectionView, internalFiles: self.internalFiles)
             
-            self.internalFilesCollectionGesturesManager?.onBeginGesture = { self.handleBeginEditing() }
+            self.internalFilesCollectionGesturesManager?.onBeginGesture = {
+                self.handleBeginEditing()
+            }
             self.internalFilesCollectionGesturesManager?.onEndGesture = { initialIndexPath, indexPath in
                 self.moveInternalFile(at: initialIndexPath, to: indexPath)
             }

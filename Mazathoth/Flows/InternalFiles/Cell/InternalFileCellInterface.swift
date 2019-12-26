@@ -13,7 +13,7 @@ protocol InternalFileCellInterface: UICollectionViewCell {
     var nameLabel: UILabel { get }
     var iconImageView: UIImageView { get }
     
-    var onDeleteButtonClick: (() -> Void)? { get set }
+    var onSelectionButtonClick: ((Bool) -> Void)? { get set }
     var onCancelButtonClick: (() -> Void)? { get set }
     var onPauseButtonClick: (() -> Void)? { get set }
     var onResumeButtonClick: (() -> Void)? { get set }
@@ -21,4 +21,5 @@ protocol InternalFileCellInterface: UICollectionViewCell {
     func setEmptyDirectoryCell()
     func configure(isDownloading: Bool, isActive: Bool)
     func configure(isEditing: Bool)
+    func configure(isLongPress: Bool)
 }
