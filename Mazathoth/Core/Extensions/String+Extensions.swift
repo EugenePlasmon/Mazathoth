@@ -36,4 +36,11 @@ extension String {
         }
         return name.appendingPathExtension(self.pathExtension) ?? name
     }
+    
+    func addColorAttribute(_ color: UIColor, for range: String) -> NSMutableAttributedString {
+        let attributedString = NSMutableAttributedString(string: self)
+        let range = (self as NSString).range(of: range, options: .caseInsensitive)
+        attributedString.addAttribute(.foregroundColor, value: color, range: range)
+        return attributedString
+    }
 }

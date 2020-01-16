@@ -13,6 +13,7 @@ final class InternalFilesCollectionViewController: UICollectionViewController {
     var internalFiles: [FileSystemEntity] = [] {
         didSet { self.onChangingInternalFilesCount?() }
     }
+    var searchBarText: String?
     // TODO: - При переключении style в режиме редактирования сохранять selected сells
     var style: InternalFilesViewController.Style = .table {
         didSet {
@@ -165,7 +166,8 @@ final class InternalFilesCollectionViewController: UICollectionViewController {
             cell.configure(isEditing: false)
             return cell
         }
-        cell.nameLabel.text = self.internalFiles[indexPath.row].name
+        let name = self.internalFiles[indexPath.row].name
+        cell.nameLabel.attributedText = name.addColorAttribute(.brandLightBlue, for: searchBarText ?? "")
         cell.configure(isEditing: isEditingMode)
         cell.configure(isDownloading: self.internalFiles[indexPath.row].isDownloading, isActive: self.internalFiles[indexPath.row].isDownloadActive)
         self.configureButtonClickHandlers(for: cell, at: indexPath)

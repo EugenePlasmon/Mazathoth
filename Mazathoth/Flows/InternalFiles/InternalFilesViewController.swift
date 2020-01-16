@@ -35,7 +35,7 @@ final class InternalFilesViewController: UIViewController {
     }
     private var isDirectSorting: Bool = true
     var navigationTitle: String = "Home"
-    private let headerView = HeaderView()
+    private let headerView = InternalFilesHeaderView()
     private lazy var headerViewHeightConstraint = self.headerView.heightAnchor.constraint(equalToConstant: 0.0)
     private var headerViewHeight: CGFloat {
         set { self.headerViewHeightConstraint.constant = newValue }
@@ -207,7 +207,7 @@ final class InternalFilesViewController: UIViewController {
     
     private func setBackBarButtonItem() {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
-        self.navigationItem.backBarButtonItem?.tintColor = .black
+        self.navigationItem.backBarButtonItem?.tintColor = .brandBlue
     }
     
     private func showRightItems() {
@@ -325,7 +325,7 @@ final class InternalFilesViewController: UIViewController {
         }
     }
     
-    // MARK: - Touch Handlers In HeaderView
+    // MARK: - Touch Handlers In Header View
     
     private func configureButtonClickHandlersInHeaderView() {
         self.headerView.onChangerContentLayoutButtonClick = { [weak self] in
@@ -342,7 +342,7 @@ final class InternalFilesViewController: UIViewController {
             guard let self = self else { return }
             self.filterAndReloadInternalFiles(query: query)
             if !self.collectionViewController.isEditingMode {
-                self.hideRightItems()
+                self.tuneRightItems(isEnabled: false)
             }
         }
         self.headerView.onSearchBarCancelButtonClick = { [weak self] in
@@ -442,6 +442,7 @@ final class InternalFilesViewController: UIViewController {
     
     private func filterAndReloadInternalFiles(query: String) {
         self.filterInternalFiles(query: query)
+        self.collectionViewController.searchBarText = query
         self.reloadCollectionView()
     }
     

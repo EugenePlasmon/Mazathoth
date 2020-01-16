@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HeaderView: UIView {
+class InternalFilesHeaderView: UIView {
     
     let maxHeaderHeight: CGFloat = 100
     let midHeaderHeight: CGFloat = 50
@@ -61,16 +61,19 @@ class HeaderView: UIView {
         return button
     }()
     
+    let cancelButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Отмена", for: .normal)
+        button.setTitleColor(.brandBlue, for: .normal)
+        return button
+    }()
+    
     private let horizontalDistance: CGFloat = 5
     private lazy var changerContentLayoutButtonBottomConstraint = self.changerContentLayoutButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0.0)
     var changerContentLayoutButtonBottom: CGFloat {
         set { self.changerContentLayoutButtonBottomConstraint.constant = newValue }
         get { return self.changerContentLayoutButtonBottomConstraint.constant }
-    }
-    private lazy var searchBarRightConstraint = self.searchBar.rightAnchor.constraint(equalTo: self.sortButton.leftAnchor, constant: -self.horizontalDistance)
-    var searchBarRight: CGFloat {
-        set { self.searchBarRightConstraint.constant = newValue }
-        get { return self.searchBarRightConstraint.constant }
     }
    
     // MARK: - Init
@@ -86,11 +89,12 @@ class HeaderView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - 
+    //MARK: - Аction
     
     private func buttonАctions() {
         self.changerContentLayoutButton.addTarget(self, action: #selector(changeContentLayout(_:)), for: .touchUpInside)
         self.sortButton.addTarget(self, action: #selector(sort), for: .touchUpInside)
+        self.cancelButton.addTarget(self, action: #selector(cancelSearch), for: .touchUpInside)
     }
     
     @objc private func changeContentLayout(_ sender: UIButton) {
@@ -101,11 +105,21 @@ class HeaderView: UIView {
         self.onSortButtonClick?()
     }
     
+    @objc private func cancelSearch() {
+        self.sortButton.isHidden = false
+        self.changerContentLayoutButton.isHidden = false
+        self.cancelButton.isHidden = true
+        self.searchBar.text = nil
+        self.searchBar.endEditing(true)
+        self.onSearchBarCancelButtonClick?()
+    }
+    
     // MARK: - UI
     
     func configureUI() {
         self.addChangerContentLayoutButton()
         self.addSortButton()
+        self.addCancelButton()
         self.addSearchBar()
         self.addFileСountLabel()
         self.addNameLabel()
@@ -145,12 +159,23 @@ class HeaderView: UIView {
             self.sortButton.bottomAnchor.constraint(equalTo: self.changerContentLayoutButton.bottomAnchor)
             ])
     }
+    
+    private func addCancelButton() {
+        self.addSubview(self.cancelButton)
+        self.cancelButton.isHidden = true
+        NSLayoutConstraint.activate([
+            self.cancelButton.heightAnchor.constraint(equalTo: self.changerContentLayoutButton.heightAnchor),
+            self.cancelButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -2*self.horizontalDistance),
+            self.cancelButton.leftAnchor.constraint(equalTo: self.sortButton.leftAnchor, constant: 0.0),
+            self.cancelButton.centerYAnchor.constraint(equalTo: self.changerContentLayoutButton.centerYAnchor)
+            ])
+    }
 
     private func addSearchBar() {
         self.addSubview(self.searchBar)
         self.setSearchTextField()
         NSLayoutConstraint.activate([
-            self.searchBarRightConstraint,
+            self.searchBar.rightAnchor.constraint(equalTo: self.sortButton.leftAnchor, constant: -self.horizontalDistance),
             self.searchBar.heightAnchor.constraint(equalTo: self.changerContentLayoutButton.heightAnchor),
             self.searchBar.leftAnchor.constraint(equalTo: self.leftAnchor, constant: self.horizontalDistance),
             self.searchBar.bottomAnchor.constraint(equalTo: self.changerContentLayoutButton.bottomAnchor)
@@ -168,32 +193,16 @@ class HeaderView: UIView {
         searchTextField.clipsToBounds = true
         searchTextField.clearButtonMode = .never
     }
-    
-    private func setCancelButton() {
-        (searchBar.value(forKey: "cancelButton") as! UIButton).setTitle("Отмена", for: .normal)
-    }
 }
 
 //MARK: - UISearchBarDelegate
 
-extension HeaderView: UISearchBarDelegate {
+extension InternalFilesHeaderView: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.sortButton.isHidden = true
         self.changerContentLayoutButton.isHidden = true
-        searchBar.showsCancelButton = true
-        self.setCancelButton()
-        self.searchBarRight = self.changerContentLayoutButton.frame.size.width + self.sortButton.frame.size.width + self.horizontalDistance
+        self.cancelButton.isHidden = false
         self.onSearchBarTextChange?(searchText)
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        self.sortButton.isHidden = false
-        self.changerContentLayoutButton.isHidden = false
-        searchBar.showsCancelButton = false
-        searchBar.text = nil
-        searchBar.endEditing(true)
-        searchBarRight = -self.horizontalDistance
-        self.onSearchBarCancelButtonClick?()
     }
 }
