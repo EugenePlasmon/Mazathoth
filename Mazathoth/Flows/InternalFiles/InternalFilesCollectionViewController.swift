@@ -14,11 +14,9 @@ final class InternalFilesCollectionViewController: UICollectionViewController {
         didSet { self.onChangingInternalFilesCount?() }
     }
     var searchBarText: String?
-    // TODO: - При переключении style в режиме редактирования сохранять selected сells
     var style: InternalFilesViewController.Style = .table {
         didSet {
             self.updatePresentationStyle()
-            self.selectedCellsIndexPaths = []
         }
     }
     private let internalFileManager: InternalFileManagerInterface
@@ -160,15 +158,15 @@ final class InternalFilesCollectionViewController: UICollectionViewController {
             assertionFailure("Unexpected cell type: \(type(of: dequeuedCell))")
             return dequeuedCell
         }
+        cell.setEmptyDirectoryCell(self.internalFiles.isEmpty)
         guard !self.internalFiles.isEmpty else {
-            cell.setEmptyDirectoryCell()
             cell.configure(isDownloading: false, isActive: false)
-            cell.configure(isEditing: false)
+            cell.configure(isEditing: false, isSelected: false)
             return cell
         }
         let name = self.internalFiles[indexPath.row].name
         cell.nameLabel.attributedText = name.addColorAttribute(.brandLightBlue, for: searchBarText ?? "")
-        cell.configure(isEditing: isEditingMode)
+        cell.configure(isEditing: isEditingMode, isSelected: self.selectedCellsIndexPaths.contains(indexPath))
         cell.configure(isDownloading: self.internalFiles[indexPath.row].isDownloading, isActive: self.internalFiles[indexPath.row].isDownloadActive)
         self.configureButtonClickHandlers(for: cell, at: indexPath)
         // TODO: - реализовать icon по типу файла
@@ -177,7 +175,11 @@ final class InternalFilesCollectionViewController: UICollectionViewController {
             cell.iconImageView.isHidden = true
             return cell
         }
-        cell.iconImageView.image = UIImage(named: "Folder")
+        if (self.internalFiles[indexPath.row] as? Folder) != nil {
+            cell.iconImageView.image = UIImage(named: "Folder")
+        } else {
+            cell.iconImageView.image = UIImage(named: "fileIcon")
+        }
         cell.iconImageView.isHidden = false
         return cell
     }
@@ -235,7 +237,7 @@ final class InternalFilesCollectionViewController: UICollectionViewController {
                     return
             }
             self.isEditingMode = true
-            cell.configure(isEditing: isEditingMode)
+            cell.configure(isEditing: isEditingMode, isSelected: false)
             self.onLongPressOnCell?()
         }
     }
@@ -254,7 +256,7 @@ final class InternalFilesCollectionViewController: UICollectionViewController {
                 return
             }
             self.isEditingMode = false
-            cell.configure(isEditing: isEditingMode)
+            cell.configure(isEditing: isEditingMode, isSelected: false)
         }
         self.selectItem()
         self.internalFilesCollectionGesturesManager = nil
@@ -297,6 +299,8 @@ extension InternalFilesCollectionViewController: UIGestureRecognizerDelegate {
         let dstPath = self.internalFiles[indexPath.row].absolutePath.appendingPathComponent(srcName)
         self.internalFileManager.moveInternalFile(atPath: srcPath, toPath: dstPath)
         self.internalFiles.remove(at: initialIndexPath.row)
+        self.collectionView.reloadData()
+        self.selectedCellsIndexPaths = []
     }
 }
 

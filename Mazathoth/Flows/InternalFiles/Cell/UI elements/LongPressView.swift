@@ -37,8 +37,9 @@ final class LongPressView: UIView {
         self.path = UIBezierPath()
         let height = self.frame.size.height
         let width = self.frame.size.width
-        self.path?.move(to: CGPoint(x: height/2, y: 0.0))
-        self.path?.addArc(withCenter: CGPoint(x: height/2, y: height/2), radius: height/2, startAngle: CGFloat(270.0).toRadians(), endAngle: CGFloat(90.0).toRadians(), clockwise: false)
+        let x = 20 + self.frame.size.height/3/2
+        self.path?.move(to: CGPoint(x: x, y: 0.0))
+        self.path?.addArc(withCenter: CGPoint(x: x, y: height/2), radius: height/2, startAngle: CGFloat(270.0).toRadians(), endAngle: CGFloat(90.0).toRadians(), clockwise: false)
         self.path?.addLine(to: CGPoint(x: width, y: height))
         self.path?.addLine(to: CGPoint(x: width, y: 0.0))
         self.path?.close()

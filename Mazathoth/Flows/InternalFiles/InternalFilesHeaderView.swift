@@ -1,5 +1,5 @@
 //
-//  HeaderViewController.swift
+//  InternalFilesHeaderView.swift
 //  Mazathoth
 //
 //  Created by Nadezhda on 29/10/2019.

@@ -18,8 +18,8 @@ protocol InternalFileCellInterface: UICollectionViewCell {
     var onPauseButtonClick: (() -> Void)? { get set }
     var onResumeButtonClick: (() -> Void)? { get set }
     
-    func setEmptyDirectoryCell()
+    func setEmptyDirectoryCell(_ isTemplate: Bool)
     func configure(isDownloading: Bool, isActive: Bool)
-    func configure(isEditing: Bool)
+    func configure(isEditing: Bool, isSelected: Bool)
     func configure(isLongPress: Bool)
 }
